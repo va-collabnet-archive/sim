@@ -4,10 +4,14 @@
  */
 package gov.va.sim.act.expression;
 
+import java.io.IOException;
+
 /**
  *
  * @author kec
  */
 public interface ExpressionComponentBI {
     
+    String getPreferredText() throws IOException;
+    String getFullySpecifiedText() throws IOException;
 }
