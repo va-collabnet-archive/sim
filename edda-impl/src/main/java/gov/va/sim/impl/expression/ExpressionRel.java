@@ -10,6 +10,7 @@ package gov.va.sim.impl.expression;
 import gov.va.sim.act.expression.ExpressionRelBI;
 import gov.va.sim.act.expression.ExpressionRelGroupBI;
 import gov.va.sim.act.expression.node.ExpressionNodeBI;
+import java.io.IOException;
 
 import org.ihtsdo.tk.api.concept.ConceptVersionBI;
 
@@ -22,6 +23,16 @@ public class ExpressionRel implements ExpressionRelBI {
    private ExpressionNodeBI     origin;
    private ExpressionRelGroupBI relGroup;
    private ConceptVersionBI     type;
+
+    @Override
+    public String getFullySpecifiedText() throws IOException {
+        return type.getFsnDescsActive().iterator().next().getText();
+    }
+
+    @Override
+    public String getPreferredText() throws IOException {
+        return type.getPrefDescsActive().iterator().next().getText();
+    }
 
    //~--- get methods ---------------------------------------------------------
 

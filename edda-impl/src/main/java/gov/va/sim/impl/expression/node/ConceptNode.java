@@ -29,6 +29,16 @@ public class ConceptNode extends ExpressionNode<ConceptVersionBI> implements Con
     }
 
     @Override
+    public String getFullySpecifiedText() throws IOException {
+        return getFullySpecifiedDesc();
+    }
+
+    @Override
+    public String getPreferredText() throws IOException {
+        return getPreferredDesc();
+    }
+
+    @Override
     public String getFullySpecifiedDesc() throws IOException {
         return value.getFsnDescsActive().iterator().next().getText();
     }
