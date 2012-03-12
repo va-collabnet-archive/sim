@@ -25,6 +25,9 @@ public class ConceptNode extends ExpressionNode<ConceptVersionBI> implements Con
 
     @Override
     public UUID getConceptUuid() {
+        if (value == null) {
+            return null;
+        }
         return value.getPrimUuid();
     }
 
@@ -40,7 +43,13 @@ public class ConceptNode extends ExpressionNode<ConceptVersionBI> implements Con
 
     @Override
     public String getFullySpecifiedDesc() throws IOException {
-        return value.getFsnDescsActive().iterator().next().getText();
+        if (value == null) {
+            return "Null value in concept node.";
+        }
+        if (value.getFsnDescsActive() != null) {
+            return value.getFsnDescsActive().iterator().next().getText();
+        }
+        return "No fsn for: " + value.toLongString();
     }
 
     @Override
@@ -62,7 +71,7 @@ public class ConceptNode extends ExpressionNode<ConceptVersionBI> implements Con
         } else {
             sb.append(" uuid=\"");
         }
-        sb.append(getConceptUuid().toString());
+        sb.append(getConceptUuid());
         sb.append("\"");
     }
 
