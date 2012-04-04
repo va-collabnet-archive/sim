@@ -98,6 +98,18 @@ public class Expression implements ExpressionBI {
       return sb.toString();
    }
 
+   public String getHtmlFragment(boolean verbose) throws IOException {
+      StringBuilder sb = new StringBuilder();
+
+      if (focus != null) {
+         focus.generateHtml(sb, false);
+      } else {
+         sb.append("null focus");
+      }
+
+      return sb.toString();
+   }
+
    //~--- set methods ---------------------------------------------------------
 
    @Override

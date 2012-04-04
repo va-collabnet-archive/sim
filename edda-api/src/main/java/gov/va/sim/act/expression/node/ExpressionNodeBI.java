@@ -70,6 +70,10 @@ public interface ExpressionNodeBI<T extends Object> extends ExpressionComponentB
     * @throws IOException 
     */
    void generateXml(StringBuilder sb, boolean verbose) throws IOException;
+   
+   
+   void generateHtml(StringBuilder sb, boolean verbose) throws IOException;
+   void generateHtml(StringBuilder sb, boolean verbose, int depth) throws IOException;
 
    void appendStringForUuidHash(StringBuilder sb) throws IOException;
 }
