@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>gov.va</groupId>
-        <artifactId>edda</artifactId>
+        <artifactId>sim</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>sim-rest-server</artifactId>
@@ -89,7 +89,7 @@
         </dependency>
         <dependency>
             <groupId>gov.va</groupId>
-            <artifactId>edda-impl</artifactId>
+            <artifactId>sim-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
