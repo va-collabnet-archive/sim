@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gov.va</groupId>
-    <artifactId>edda</artifactId>
+    <artifactId>sim</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -140,8 +140,8 @@
         </plugins>
     </build>
     <modules>
-        <module>edda-api</module>
-        <module>edda-impl</module>
+        <module>sim-api</module>
+        <module>sim-impl</module>
         <module>sim-rest-client</module>
         <module>sim-rest-server</module>
         <module>sim-fx-ria</module>
