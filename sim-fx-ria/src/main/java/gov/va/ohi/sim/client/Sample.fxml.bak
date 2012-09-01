@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?scenebuilder-background-color 0x00cc52ff?>
+
+<AnchorPane id="AnchorPane" prefHeight="914.0" prefWidth="1135.0" xmlns:fx="http://javafx.com/fxml" fx:controller="gov.va.ohi.sim.client.Sample">
+  <children>
+    <BorderPane id="borderPane1" prefHeight="914.0" prefWidth="1135.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <BorderPane id="borderPane2" prefHeight="200.0" prefWidth="200.0">
+          <bottom>
+            <ToolBar id="toolBar1" prefWidth="1135.0">
+              <items>
+                <Button id="button1" mnemonicParsing="false" text="Button" />
+              </items>
+            </ToolBar>
+          </bottom>
+          <center>
+            <SplitPane id="splitPaneHorizontal1" dividerPositions="0.2903795233892321" focusTraversable="true" prefHeight="914.0" prefWidth="1135.0">
+              <items>
+                <AnchorPane id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <TreeView id="treeView1" fx:id="treeView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children>
+                </AnchorPane>
+                <AnchorPane id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <ScrollPane id="scrollPane1" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                          <children>
+                            <StackPane id="stackPane1" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                <FlowPane id="flowPane1" prefHeight="851.0" prefWidth="799.0" StackPane.alignment="TOP_LEFT">
+                                  <children>
+                                    <TitledPane id="titledPane1" expanded="false" prefWidth="800.0" text="descriptions">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                          <children>
+                                            <TableView fx:id="descriptionTable" tableMenuButtonVisible="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                              <columns>
+                                                <TableColumn prefWidth="75.0" text="uuid" fx:id="descriptionUuidColumn" />
+                                                <TableColumn prefWidth="75.0" text="nid" fx:id="descriptionNidColumn" />
+                                                <TableColumn prefWidth="75.0" text="type" fx:id="descriptionTypeColumn" />
+                                                <TableColumn prefWidth="200.0" text="text" fx:id="descriptionTextColumn" />
+                                                <TableColumn prefWidth="75.0" text="lang" fx:id="descriptionLangColumn" />
+                                                <TableColumn prefWidth="75.0" text="status" fx:id="descriptionStatusColumn" />
+                                                <TableColumn prefWidth="75.0" text="time" fx:id="descriptionTimeColumn" />
+                                                <TableColumn prefWidth="75.0" text="author" fx:id="descriptionAuthorColumn" />
+                                                <TableColumn prefWidth="75.0" text="module" fx:id="descriptionModuleColumn" />
+                                                <TableColumn prefWidth="75.0" text="path" fx:id="descriptionPathColumn" />
+                                              </columns>
+                                            </TableView>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane id="titledPane2" expanded="false" prefWidth="800.0" text="origin relationships">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                          <children>
+                                            <TableView fx:id="relationshipTable" prefWidth="799.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                              <columns>
+                                                <TableColumn prefWidth="75.0" text="uuid" fx:id="relationshipUuidColumn" />
+                                                <TableColumn prefWidth="75.0" text="nid" fx:id="relationshipNidColumn" />
+                                                <TableColumn prefWidth="75.0" text="type" fx:id="relationshipTypeColumn" />
+                                                <TableColumn prefWidth="75.0" text="destination" fx:id="relationshipDestinationColumn" />
+                                                <TableColumn prefWidth="75.0" text="status" fx:id="relationshipStatusColumn" />
+                                                <TableColumn prefWidth="75.0" text="time" fx:id="relationshipTimeColumn" />
+                                                <TableColumn prefWidth="75.0" text="author" fx:id="relationshipAuthorColumn" />
+                                                <TableColumn prefWidth="75.0" text="module" fx:id="relationshipModuleColumn" />
+                                                <TableColumn prefWidth="75.0" text="path" fx:id="relationshipPathColumn" />
+                                              </columns>
+                                            </TableView>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane id="titledPane3" expanded="false" prefWidth="800.0" text="destination relationships">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane id="titledPane5" expanded="false" prefWidth="800.0" text="refset members">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane id="titledPane4" expanded="false" prefWidth="800.0" text="media">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                      </content>
+                                    </TitledPane>
+                                  </children>
+                                  <StackPane.margin>
+                                    <Insets fx:id="x1" />
+                                  </StackPane.margin>
+                                </FlowPane>
+                                <Region id="region1" fx:id="veil" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4)" StackPane.alignment="TOP_LEFT" StackPane.margin="$x1" />
+                                <ProgressIndicator id="progressIndicator1" fx:id="conceptServiceProgress" maxHeight="75.0" maxWidth="75.0" progress="0.0" StackPane.alignment="CENTER" />
+                              </children>
+                            </StackPane>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </center>
+          <top>
+            <ToolBar id="toolBar2">
+              <items>
+                <Button id="button2" mnemonicParsing="false" text="Button" />
+              </items>
+            </ToolBar>
+          </top>
+        </BorderPane>
+      </center>
+      <top>
+        <MenuBar id="menuBar1" useSystemMenuBar="true">
+          <menus>
+            <Menu id="fileMenu1" mnemonicParsing="false" text="File">
+              <items>
+                <MenuItem id="menuItem2" mnemonicParsing="false" text="Upload SMART Encounter" fx:id="uploadSmartEncounterMenuItem" />
+                <MenuItem id="menuItem1" mnemonicParsing="false" text="Upload LEGOs..." fx:id="loadLegoMenuItem" />
+                <MenuItem id="close1" mnemonicParsing="false" text="Quit" fx:id="quitMenuItem" />
+              </items>
+            </Menu>
+            <Menu id="editMenu1" mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem id="delete1" mnemonicParsing="false" text="Delete" />
+              </items>
+            </Menu>
+            <Menu id="helpMenu1" mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem id="about1" mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>

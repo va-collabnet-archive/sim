@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gov.va</groupId>
@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Event-Driven Document Architecture</name>
+    <name>SIM: (MMP) Simple Integrated Model</name>
 
     <organization>
         <name>Veterans Health Administration
@@ -15,13 +15,13 @@
         </name>
         <url>http://www.va.gov/</url>
     </organization>
-   <licenses>
+    <licenses>
         <license>
             <name>United States Government Work</name>
             <url>http://www.copyright.gov/title17/92chap1.html#105</url>
             <distribution>repo</distribution>
         </license>
-   </licenses>
+    </licenses>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -39,7 +39,7 @@
  
     <build>
         <plugins>
-             <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.7</version>
@@ -62,8 +62,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -137,5 +137,8 @@
     <modules>
         <module>edda-api</module>
         <module>edda-impl</module>
+        <module>sim-rest-client</module>
+        <module>sim-rest-server</module>
+        <module>sim-fx-ria</module>
     </modules>
 </project>
