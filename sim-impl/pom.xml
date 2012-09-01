@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>gov.va</groupId>
-        <artifactId>edda</artifactId>
+        <artifactId>sim</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>sim-impl</artifactId>
@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>edda-api</artifactId>
+            <artifactId>sim-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
