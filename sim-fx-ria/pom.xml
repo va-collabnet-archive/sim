@@ -7,18 +7,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>sim-fx-ria</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SIM: Fx Rich Internet Application</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>2.2</javafx.version>
-        <javafx.libs>/Library/Java/JavaVirtualMachines/jdk1.7.0_07.jdk/Contents/Home/jre/lib</javafx.libs>
-    </properties>
-
+ 
     <dependencies>
         <dependency>
             <groupId>com.oracle</groupId>
@@ -41,19 +35,16 @@
         <dependency>
             <groupId>org.ihtsdo.tk</groupId>
             <artifactId>tk-concept-component</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.ihtsdo.tk</groupId>
-            <artifactId>tk-rest</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
+            <artifactId>tk-rest-client</artifactId>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.ihtsdo.tk</groupId>
             <artifactId>tk-fx-model</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -64,22 +55,22 @@
         <dependency>
             <groupId>org.ihtsdo</groupId>
             <artifactId>flag-icons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${icons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ihtsdo</groupId>
             <artifactId>fugue-icons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${icons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ihtsdo</groupId>
             <artifactId>silk-icons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${icons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ihtsdo</groupId>
             <artifactId>diagona-icons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${icons.version}</version>
         </dependency>
     </dependencies>
     <build>

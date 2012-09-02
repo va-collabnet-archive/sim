@@ -6,15 +6,11 @@
 package gov.va.ohi.sim.client.event.handlers;
 
 import gov.va.ohi.sim.client.App;
-import java.awt.FileDialog;
 import java.io.File;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.stage.DirectoryChooser;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -42,10 +38,11 @@ public class UploadLegoEventHandler implements EventHandler<ActionEvent> {
       chooser.setInitialDirectory(defaultDirectory);
 
       File selectedDirectory = chooser.showDialog(App.stage);
+
       if (selectedDirectory != null) {
-        System.out.println("Selected file: " + selectedDirectory.getAbsolutePath());
+         System.out.println("Selected file: " + selectedDirectory.getAbsolutePath());
       } else {
-        System.out.println("No selected file. ");
+         System.out.println("No selected file. ");
       }
    }
 }

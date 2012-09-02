@@ -11,7 +11,7 @@ import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
 import org.ihtsdo.tk.binding.Taxonomies;
-import org.ihtsdo.tk.rest.RestClient;
+import org.ihtsdo.tk.rest.client.RestClient;
 
 /**
  * Hello world!

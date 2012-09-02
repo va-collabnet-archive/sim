@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
-import org.ihtsdo.tk.rest.RestClient;
 
 /**
  *
