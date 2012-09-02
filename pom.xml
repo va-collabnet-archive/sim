@@ -27,12 +27,33 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <properties>
+        <ttk.version>3.0.1-SNAPSHOT</ttk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>2.2</javafx.version>
+        <icons.version>1.0-SNAPSHOT</icons.version>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.ihtsdo.tk</groupId>
                 <artifactId>tk-concept-component</artifactId>
-                <version>3.0.1-SNAPSHOT</version>
+                <version>${ttk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ihtsdo.tk</groupId>
+                <artifactId>tk-rest-client</artifactId>
+                <version>${ttk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ihtsdo.tk</groupId>
+                <artifactId>tk-fx-model</artifactId>
+                <version>${ttk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ihtsdo.tk</groupId>
+                <artifactId>tk-bdb</artifactId>
+                <version>${ttk.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
