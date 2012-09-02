@@ -6,7 +6,6 @@ package gov.va.oia.smart.rest;
 
 import gov.va.demo.dom.PncsLegoMapGenerator;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
