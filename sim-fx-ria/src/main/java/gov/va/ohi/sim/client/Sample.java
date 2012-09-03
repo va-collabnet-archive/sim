@@ -88,6 +88,8 @@ public class Sample implements Initializable {
    @FXML
    private MenuItem                  loadLegoMenuItem;
    @FXML
+   private ProgressBar               progressBar;
+   @FXML
    private MenuItem                  quitMenuItem;
    @FXML
    private TableColumn               relationshipAuthorColumn;
@@ -114,13 +116,11 @@ public class Sample implements Initializable {
    @FXML
    private MenuItem                  uploadSmartEncounterMenuItem;
    @FXML
-   private MenuItem                  uploadSmartEncounterToSimServerMenuItem;
-   @FXML
    private MenuItem                  uploadSmartEncounterToHDRMenuItem;
    @FXML
-   private Region                    veil;
+   private MenuItem                  uploadSmartEncounterToSimServerMenuItem;
    @FXML
-   private ProgressBar               progressBar;
+   private Region                    veil;
 
    //~--- methods -------------------------------------------------------------
 
@@ -227,7 +227,8 @@ public class Sample implements Initializable {
       });
       uploadSmartEncounterMenuItem.setOnAction(new UploadSmartEncounterEventHandler(treeView));
       uploadSmartEncounterToHDRMenuItem.setOnAction(new UploadSmartEncounterToHdrEventHandler(treeView));
-      uploadSmartEncounterToSimServerMenuItem.setOnAction(new UploadSmartEncounterToSimServerEventHandler(treeView));
+      uploadSmartEncounterToSimServerMenuItem.setOnAction(
+          new UploadSmartEncounterToSimServerEventHandler(treeView));
       loadLegoMenuItem.setOnAction(new UploadLegoEventHandler(treeView, new ActivityPanel(progressBar)));
    }
 
