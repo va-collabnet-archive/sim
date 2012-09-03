@@ -18,7 +18,7 @@ import org.ihtsdo.fxmodel.concept.component.relationship.FxRelationshipVersion;
 import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
-import org.ihtsdo.tk.rest.client.RestClient;
+import org.ihtsdo.tk.rest.client.TtkRestClient;
 
 /**
  *
@@ -65,7 +65,7 @@ class GetSimTreeItemConcept implements Callable<Boolean> {
          reference = treeItem.getValue().getRelationshipVersion().getDestinationReference();
       }
 
-      concept = RestClient.getRestClient().getFxConcept(reference,
+      concept = TtkRestClient.getRestClient().getFxConcept(reference,
               UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), versionPolicy, refexPolicy,
               relationshipPolicy);
 

@@ -1,6 +1,7 @@
+
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
  */
 package gov.va.oia.smart.rest;
 
@@ -33,379 +34,400 @@ import org.w3c.dom.traversal.TreeWalker;
  * @author kec
  */
 public class ProcessPncsDoc {
+   private Documents checkDocumentTable(UUID docUuid) {
+      EntityManager em              = JpaManager.getEntityManager();
+      Query         countEuuidQuery = em.createNamedQuery("Documents.findByDuuid");
 
-    private Documents checkDocumentTable(UUID docUuid) {
-        EntityManager em = JpaManager.getEntityManager();
-        Query countEuuidQuery = em.createNamedQuery("Documents.findByDuuid");
+      countEuuidQuery.setParameter("duuid", docUuid.toString());
 
-        countEuuidQuery.setParameter("duuid", docUuid.toString());
+      List obs = countEuuidQuery.getResultList();
 
-        List obs = countEuuidQuery.getResultList();
+      if (!obs.isEmpty()) {
+         return (Documents) obs.get(0);
+      }
 
-        if (!obs.isEmpty()) {
-            return (Documents) obs.get(0);
-        }
+      return null;
+   }
 
-        return null;
-    }
+   private Intervals checkIntervalTable(UUID intervalUuid) {
+      EntityManager em              = JpaManager.getEntityManager();
+      Query         countIuuidQuery = em.createNamedQuery("Intervals.findByIuuid");
 
-    private Intervals checkIntervalTable(UUID intervalUuid) {
-        EntityManager em = JpaManager.getEntityManager();
-        Query countIuuidQuery = em.createNamedQuery("Intervals.findByIuuid");
+      countIuuidQuery.setParameter("iuuid", intervalUuid.toString());
 
-        countIuuidQuery.setParameter("iuuid", intervalUuid.toString());
+      List<Intervals> obs = countIuuidQuery.getResultList();
 
-        List<Intervals> obs = countIuuidQuery.getResultList();
+      if (!obs.isEmpty()) {
+         return (Intervals) obs.get(0);
+      }
 
-        if (!obs.isEmpty()) {
-            return (Intervals) obs.get(0);
-        }
+      return null;
+   }
 
-        return null;
-    }
+   private PncsLegoMap checkPcnsMap(String idStr, String valueStr) {
+      EntityManager em            = JpaManager.getEntityManager();
+      Query         countMapQuery = em.createNamedQuery("PncsLegoMap.findByPncsIdPncsValue");
 
-    private PncsLegoMap checkPcnsMap(String idStr, String valueStr) {
-        EntityManager em = JpaManager.getEntityManager();
-        Query countMapQuery = em.createNamedQuery("PncsLegoMap.findByPncsIdPncsValue");
+      countMapQuery.setParameter("pncsValue", valueStr);
+      countMapQuery.setParameter("pncsId", Integer.parseInt(idStr));
 
-        countMapQuery.setParameter("pncsValue", valueStr);
-        countMapQuery.setParameter("pncsId", Integer.parseInt(idStr));
+      List obs = countMapQuery.getResultList();
 
-        List obs = countMapQuery.getResultList();
+      if (!obs.isEmpty()) {
+         return (PncsLegoMap) obs.get(0);
+      }
 
-        if (!obs.isEmpty()) {
-            return (PncsLegoMap) obs.get(0);
-        }
+      return null;
+   }
 
-        return null;
-    }
+   private Persons checkPersonTable(UUID docUuid) {
+      EntityManager em              = JpaManager.getEntityManager();
+      Query         countEuuidQuery = em.createNamedQuery("Persons.findByPuuid");
 
-    private Persons checkPersonTable(UUID docUuid) {
-        EntityManager em = JpaManager.getEntityManager();
-        Query countEuuidQuery = em.createNamedQuery("Persons.findByPuuid");
+      countEuuidQuery.setParameter("puuid", docUuid.toString());
 
-        countEuuidQuery.setParameter("puuid", docUuid.toString());
+      List<Persons> obs = countEuuidQuery.getResultList();
 
-        List<Persons> obs = countEuuidQuery.getResultList();
+      if (!obs.isEmpty()) {
+         return (Persons) obs.get(0);
+      }
 
-        if (!obs.isEmpty()) {
-            return (Persons) obs.get(0);
-        }
+      return null;
+   }
 
-        return null;
-    }
+   protected void process(String pncsDocStr) throws Exception {
+      DocumentBuilderFactory factory                  = DocumentBuilderFactory.newInstance();
+      DocumentBuilder        builder                  = factory.newDocumentBuilder();
+      Document               pncsDoc                  =
+         builder.parse(new ByteArrayInputStream(pncsDocStr.getBytes()));
+      int                    whatToShow               = NodeFilter.SHOW_ELEMENT;
+      NodeFilter             filter                   = new SectionNodeFilter();
+      boolean                entityReferenceExpansion = false;
+      TreeWalker             walker                   =
+         ((DocumentTraversal) pncsDoc).createTreeWalker(pncsDoc, whatToShow, filter,
+            entityReferenceExpansion);
+      Node    domNode           = walker.nextNode();
+      Node    sectionNode       = null;
+      boolean headerSection     = false;
+      String  patientName       = null;
+      String  patientIEN        = null;
+      String  authorName        = null;
+      String  documentTimestamp = null;
+      String  institutionName   = null;
+      String  institutionNumber = null;
+      Date    timestamp;
+      UUID    providerUuid    = null;
+      UUID    patientUuid     = null;
+      UUID    documentUuid    = null;
+      UUID    intervalUuid    = null;
+      int     patientPnid     = Integer.MAX_VALUE;
+      int     providerPnid    = Integer.MAX_VALUE;
+      int     documentNid     = Integer.MAX_VALUE;
+      int     intervalNid     = Integer.MAX_VALUE;
+      String  sectionIdStr    = null;
+      String  sectionValueStr = null;
 
-    protected void process(String pncsDocStr) 
-            throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
+      // 03/07/2012@19:36
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy@HH:mm");
 
-        Document pncsDoc = builder.parse(new ByteArrayInputStream(pncsDocStr.getBytes()));
-        int whatToShow = NodeFilter.SHOW_ELEMENT;
-        NodeFilter filter = new SectionNodeFilter();
-        boolean entityReferenceExpansion = false;
-        TreeWalker walker = ((DocumentTraversal) pncsDoc).createTreeWalker(pncsDoc, whatToShow, filter,
-                entityReferenceExpansion);
-        Node domNode = walker.nextNode();
-        Node sectionNode = null;
-        boolean headerSection = false;
-        String patientName = null;
-        String patientIEN = null;
-        String authorName = null;
-        String documentTimestamp = null;
-        String institutionName = null;
-        String institutionNumber = null;
-        Date timestamp;
-        UUID providerUuid = null;
-        UUID patientUuid = null;
-        UUID documentUuid = null;
-        UUID intervalUuid = null;
-        int patientPnid = Integer.MAX_VALUE;
-        int providerPnid = Integer.MAX_VALUE;
-        int documentNid = Integer.MAX_VALUE;
-        int intervalNid = Integer.MAX_VALUE;
-        String sectionIdStr = null;
-        String sectionValueStr = null;
+      // Jan 12, 2011@12:34
+      SimpleDateFormat sdf2          = new SimpleDateFormat("MMM DD, yyyy@HH:mm");
+      int              mappedCount   = 0;
+      int              unmappedCount = 0;
+      short            sequenceInDoc = 0;
 
-        // 03/07/2012@19:36
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy@HH:mm");
-        // Jan 12, 2011@12:34
-        SimpleDateFormat sdf2 = new SimpleDateFormat("MMM DD, yyyy@HH:mm");
-        int mappedCount = 0;
-        int unmappedCount = 0;
-        short sequenceInDoc = 0;
+      while (domNode != null) {
+         sequenceInDoc++;
 
-        while (domNode != null) {
-            sequenceInDoc++;
+         if (domNode.getNodeName().equals("section")) {
+            sectionNode = domNode;
 
-            if (domNode.getNodeName().equals("section")) {
-                sectionNode = domNode;
+            Node attr = sectionNode.getAttributes().getNamedItem("text");
 
-                Node attr = sectionNode.getAttributes().getNamedItem("text");
-
-                if (attr.getTextContent().equalsIgnoreCase("Section=Header")) {
-                    headerSection = true;
-                } else {
-                    if (headerSection) {
-                        headerSection = false;
-                        System.out.println("patientName: " + patientName);
-                        System.out.println("patientIEN: " + patientIEN);
-                        System.out.println("authorName: " + authorName);
-                        System.out.println("timeStamp: " + documentTimestamp);
-                        System.out.println("institutionName: " + institutionName);
-                        System.out.println("institutionNumber: " + institutionNumber);
-                        providerUuid =
-                                Type5UuidFactory.get(UUID.fromString("59c115d0-79c5-11e1-b0c4-0800200c9a66"),
-                                authorName);
-                        patientUuid =
-                                Type5UuidFactory.get(UUID.fromString("59c115d2-79c5-11e1-b0c4-0800200c9a66"),
-                                patientIEN);
-                        try {
-                            timestamp = sdf.parse(documentTimestamp);
-                        } catch (ParseException parseException) {
-                            timestamp = sdf2.parse(documentTimestamp);
-                        }
-                        String intervalStart = timestamp.toString();
-                        String intervalEnd = timestamp.toString();
-
-                        intervalUuid =
-                                Type5UuidFactory.get(UUID.fromString("6703d801-7b54-11e1-b0c4-0800200c9a66"),
-                                intervalStart + intervalEnd);
-                        documentUuid =
-                                Type5UuidFactory.get(UUID.fromString("59c115d3-79c5-11e1-b0c4-0800200c9a66"),
-                                authorName + patientIEN + intervalUuid.toString());
-                        System.out.println("providerUuid: " + providerUuid);
-                        System.out.println("patientUuid: " + patientUuid);
-                        System.out.println("documentUuid: " + documentUuid);
-
-                        Persons patient = checkPersonTable(patientUuid);
-
-                        if (patient == null) {
-
-                            // add patient to person table
-                            EntityManager em = JpaManager.getEntityManager();
-                            EntityTransaction entr = em.getTransaction();
-
-                            if (!entr.isActive()) {
-                                entr.begin();
-                            }
-
-                            Persons personObj = new Persons();
-
-                            personObj.setDob(new Date());
-
-                            String[] names = patientName.split(",");
-
-                            personObj.setGivenName(names[1]);
-                            personObj.setFamilyName(names[0]);
-                            personObj.setPuuid(patientUuid.toString());
-                            em.persist(personObj);
-                            entr.commit();
-                            System.out.println("added patient Persons: " + personObj);
-                            patient = personObj;
-                        }
-
-                        patientPnid = patient.getPnid();
-
-                        Persons provider = checkPersonTable(providerUuid);
-
-                        if (provider == null) {
-
-                            // add provider to person table
-                            EntityManager em = JpaManager.getEntityManager();
-                            EntityTransaction entr = em.getTransaction();
-
-                            entr.begin();
-
-                            Persons personObj = new Persons();
-
-                            personObj.setDob(new Date());
-
-                            String[] names = authorName.split(",");
-
-                            personObj.setGivenName(names[1]);
-                            personObj.setFamilyName(names[0]);
-                            personObj.setPuuid(providerUuid.toString());
-                            em.persist(personObj);
-                            entr.commit();
-                            System.out.println("added provider Persons: " + personObj);
-                            provider = personObj;
-                        }
-
-                        providerPnid = provider.getPnid();
-
-                        Intervals interval = checkIntervalTable(intervalUuid);
-
-                        if (interval == null) {
-                            EntityManager em = JpaManager.getEntityManager();
-                            EntityTransaction entr = em.getTransaction();
-
-                            entr.begin();
-
-                            Intervals intervalObj = new Intervals();
-
-                            intervalObj.setIstart(timestamp);
-                            intervalObj.setIend(timestamp);
-                            intervalObj.setIuuid(intervalUuid.toString());
-                            em.persist(intervalObj);
-                            entr.commit();
-                            System.out.println("added interval for doc: " + intervalObj);
-                            interval = intervalObj;
-                            intervalNid = interval.getInid();
-                        }
-
-                        Documents doc = checkDocumentTable(documentUuid);
-
-                        if (doc == null) {
-
-                            // add document to document table
-                            EntityManager em = JpaManager.getEntityManager();
-                            EntityTransaction entr = em.getTransaction();
-
-                            entr.begin();
-
-                            Documents docObj = new Documents();
-
-                            docObj.setDuuid(documentUuid.toString());
-                            docObj.setInid(interval);
-                            docObj.setPatientnid(patient);
-                            docObj.setProvidernid(provider);
-                            em.persist(docObj);
-                            entr.commit();
-                            System.out.println("added doc: " + docObj);
-                            doc = docObj;
-                            documentNid = doc.getDnid();
-                        }
-
-                        System.out.println("in doc table: " + checkDocumentTable(documentUuid));
-                        System.out.println("patient in person table: " + checkPersonTable(patientUuid));
-                        System.out.println("provider in person table: " + checkPersonTable(providerUuid));
-                    } else {    // Section header but not "Section=Header"
-                        Node sectionValueNode = sectionNode.getAttributes().getNamedItem("value");
-
-                        if (sectionValueNode != null) {
-                            sectionValueStr = sectionValueNode.getTextContent();
-                        } else {
-                            sectionValueStr = null;
-                        }
-
-                        Node sectionIdNode = sectionNode.getAttributes().getNamedItem("id");
-
-                        if (sectionIdNode != null) {
-                            sectionIdStr = sectionIdNode.getTextContent();
-                        } else {
-                            sectionIdStr = null;
-                        }
-                    }
-                }
-
-                System.out.println(attr.getTextContent());
+            if (attr.getTextContent().equalsIgnoreCase("Section=Header")) {
+               headerSection = true;
             } else {
-                String idStr = domNode.getAttributes().getNamedItem("id").getNodeValue();
-                TreeWalker valueWalker = ((DocumentTraversal) pncsDoc).createTreeWalker(domNode,
-                        NodeFilter.SHOW_TEXT | NodeFilter.SHOW_CDATA_SECTION, new TextNodeFilter(),
-                        entityReferenceExpansion);
-                Node value = valueWalker.nextNode();
-                String valueStr = value.getNodeValue();
-                switch (idStr) {
-                    case "45456":
-                        patientName = valueStr;
-                        break;
-                    case "1234556":
-                        patientIEN = valueStr;
-                        break;
-                    case "43325456":
-                        authorName = valueStr;
-                        break;
-                    case "3345456":
-                        documentTimestamp = valueStr;
-                        break;
-                    case "8845456":
-                        institutionName = valueStr;
-                        break;
-                    case "7745456":
-                        institutionNumber = valueStr;
-                        break;
-                }
+               if (headerSection) {
+                  headerSection = false;
+                  System.out.println("patientName: " + patientName);
+                  System.out.println("patientIEN: " + patientIEN);
+                  System.out.println("authorName: " + authorName);
+                  System.out.println("timeStamp: " + documentTimestamp);
+                  System.out.println("institutionName: " + institutionName);
+                  System.out.println("institutionNumber: " + institutionNumber);
+                  providerUuid =
+                     Type5UuidFactory.get(UUID.fromString("59c115d0-79c5-11e1-b0c4-0800200c9a66"),
+                                          authorName);
+                  patientUuid = Type5UuidFactory.get(UUID.fromString("59c115d2-79c5-11e1-b0c4-0800200c9a66"),
+                                                     patientIEN);
 
-                System.out.println(sectionNode.getAttributes().getNamedItem("text").getNodeValue() + " "
-                        + domNode.getAttributes().getNamedItem("text").getNodeValue() + " id: "
-                        + idStr + " value: " + valueStr);
+                  try {
+                     timestamp = sdf.parse(documentTimestamp);
+                  } catch (ParseException parseException) {
+                     timestamp = sdf2.parse(documentTimestamp);
+                  }
 
-                PncsLegoMap pcnsLegoMap = checkPcnsMap(idStr, valueStr);
+                  String intervalStart = timestamp.toString();
+                  String intervalEnd   = timestamp.toString();
 
-                if (pcnsLegoMap != null) {
-                    System.out.println("   Mapped");
-                    mappedCount++;
+                  intervalUuid =
+                     Type5UuidFactory.get(UUID.fromString("6703d801-7b54-11e1-b0c4-0800200c9a66"),
+                                          intervalStart + intervalEnd);
+                  documentUuid =
+                     Type5UuidFactory.get(UUID.fromString("59c115d3-79c5-11e1-b0c4-0800200c9a66"),
+                                          authorName + patientIEN + intervalUuid.toString());
+                  System.out.println("providerUuid: " + providerUuid);
+                  System.out.println("patientUuid: " + patientUuid);
+                  System.out.println("documentUuid: " + documentUuid);
 
-                    if (documentUuid != null) {
-                        PncsLegoMap pcnsLegoSectionMap = checkPcnsMap(sectionIdStr, sectionValueStr);
-                        EntityManager em = JpaManager.getEntityManager();
-                        EntityTransaction entr = em.getTransaction();
+                  Persons patient = checkPersonTable(patientUuid);
 
+                  if (patient == null) {
+
+                     // add patient to person table
+                     EntityManager     em   = JpaManager.getEntityManager();
+                     EntityTransaction entr = em.getTransaction();
+
+                     if (!entr.isActive()) {
                         entr.begin();
+                     }
 
-                        Documents doc = checkDocumentTable(documentUuid);
-                        Intervals interval = checkIntervalTable(intervalUuid);
-                        Assertions assertion = new Assertions();
-                        UUID assertionUuid =
-                                Type5UuidFactory.get(UUID.fromString("c7a482e1-7b90-11e1-b0c4-0800200c9a66"),
-                                documentUuid.toString() + sequenceInDoc);
+                     Persons personObj = new Persons();
 
-                        assertion.setAuuid(assertionUuid.toString());
-                        assertion.setDiscernableEnid(pcnsLegoMap.getDiscernableEnid());
-                        assertion.setDnid(doc);
-                        assertion.setInid(interval);
-                        assertion.setQualifierEnid(pcnsLegoMap.getQualifierEnid());
-                        assertion.setSectionEnid(pcnsLegoSectionMap.getDiscernableEnid());
-                        assertion.setSeqInDoc(sequenceInDoc);
-                        assertion.setValueEnid(pcnsLegoMap.getValueEnid());
-                        doc.getAssertionsCollection().add(assertion);
-                        em.persist(doc);
-                        entr.commit();
-                        System.out.println("Updated doc: " + doc + " with: " + assertion);
-                    }
-                } else {
-                    System.out.println("   NOT Mapped");
-                    unmappedCount++;
-                }
+                     personObj.setDob(new Date());
+
+                     String[] names = patientName.split(",");
+
+                     personObj.setGivenName(names[1]);
+                     personObj.setFamilyName(names[0]);
+                     personObj.setPuuid(patientUuid.toString());
+                     em.persist(personObj);
+                     entr.commit();
+                     System.out.println("added patient Persons: " + personObj);
+                     patient = personObj;
+                  }
+
+                  patientPnid = patient.getPnid();
+
+                  Persons provider = checkPersonTable(providerUuid);
+
+                  if (provider == null) {
+
+                     // add provider to person table
+                     EntityManager     em   = JpaManager.getEntityManager();
+                     EntityTransaction entr = em.getTransaction();
+
+                     entr.begin();
+
+                     Persons personObj = new Persons();
+
+                     personObj.setDob(new Date());
+
+                     String[] names = authorName.split(",");
+
+                     personObj.setGivenName(names[1]);
+                     personObj.setFamilyName(names[0]);
+                     personObj.setPuuid(providerUuid.toString());
+                     em.persist(personObj);
+                     entr.commit();
+                     System.out.println("added provider Persons: " + personObj);
+                     provider = personObj;
+                  }
+
+                  providerPnid = provider.getPnid();
+
+                  Intervals interval = checkIntervalTable(intervalUuid);
+
+                  if (interval == null) {
+                     EntityManager     em   = JpaManager.getEntityManager();
+                     EntityTransaction entr = em.getTransaction();
+
+                     entr.begin();
+
+                     Intervals intervalObj = new Intervals();
+
+                     intervalObj.setIstart(timestamp);
+                     intervalObj.setIend(timestamp);
+                     intervalObj.setIuuid(intervalUuid.toString());
+                     em.persist(intervalObj);
+                     entr.commit();
+                     System.out.println("added interval for doc: " + intervalObj);
+                     interval    = intervalObj;
+                     intervalNid = interval.getInid();
+                  }
+
+                  Documents doc = checkDocumentTable(documentUuid);
+
+                  if (doc == null) {
+
+                     // add document to document table
+                     EntityManager     em   = JpaManager.getEntityManager();
+                     EntityTransaction entr = em.getTransaction();
+
+                     entr.begin();
+
+                     Documents docObj = new Documents();
+
+                     docObj.setDuuid(documentUuid.toString());
+                     docObj.setInid(interval);
+                     docObj.setPatientnid(patient);
+                     docObj.setProvidernid(provider);
+                     em.persist(docObj);
+                     entr.commit();
+                     System.out.println("added doc: " + docObj);
+                     doc         = docObj;
+                     documentNid = doc.getDnid();
+                  }
+
+                  System.out.println("in doc table: " + checkDocumentTable(documentUuid));
+                  System.out.println("patient in person table: " + checkPersonTable(patientUuid));
+                  System.out.println("provider in person table: " + checkPersonTable(providerUuid));
+               } else {    // Section header but not "Section=Header"
+                  Node sectionValueNode = sectionNode.getAttributes().getNamedItem("value");
+
+                  if (sectionValueNode != null) {
+                     sectionValueStr = sectionValueNode.getTextContent();
+                  } else {
+                     sectionValueStr = null;
+                  }
+
+                  Node sectionIdNode = sectionNode.getAttributes().getNamedItem("id");
+
+                  if (sectionIdNode != null) {
+                     sectionIdStr = sectionIdNode.getTextContent();
+                  } else {
+                     sectionIdStr = null;
+                  }
+               }
             }
 
-            domNode = walker.nextNode();
-        }
+            System.out.println(attr.getTextContent());
+         } else {
+            String     idStr       = domNode.getAttributes().getNamedItem("id").getNodeValue();
+            TreeWalker valueWalker = ((DocumentTraversal) pncsDoc).createTreeWalker(domNode,
+                                        NodeFilter.SHOW_TEXT | NodeFilter.SHOW_CDATA_SECTION,
+                                        new TextNodeFilter(), entityReferenceExpansion);
+            Node   value    = valueWalker.nextNode();
+            String valueStr = value.getNodeValue();
 
-        System.out.println("   Mapped: " + mappedCount);
-        System.out.println("   NOT Mapped: " + unmappedCount);
-    }
+            switch (idStr) {
+            case "45456" :
+               patientName = valueStr;
 
-    //~--- inner classes -------------------------------------------------------
-    private static class SectionNodeFilter implements NodeFilter {
+               break;
 
-        @Override
-        public short acceptNode(Node n) {
-            if (n.getNodeName().equals("section")) {
-                return NodeFilter.FILTER_ACCEPT;
+            case "1234556" :
+               patientIEN = valueStr;
+
+               break;
+
+            case "43325456" :
+               authorName = valueStr;
+
+               break;
+
+            case "3345456" :
+               documentTimestamp = valueStr;
+
+               break;
+
+            case "8845456" :
+               institutionName = valueStr;
+
+               break;
+
+            case "7745456" :
+               institutionNumber = valueStr;
+
+               break;
             }
 
-            if (n.getNodeName().equals("obj")) {
-                return NodeFilter.FILTER_ACCEPT;
-            }
+            System.out.println(sectionNode.getAttributes().getNamedItem("text").getNodeValue() + " "
+                               + domNode.getAttributes().getNamedItem("text").getNodeValue() + " id: "
+                               + idStr + " value: " + valueStr);
 
-            return NodeFilter.FILTER_SKIP;
-        }
-    }
+            PncsLegoMap pcnsLegoMap = checkPcnsMap(idStr, valueStr);
 
-    private static class TextNodeFilter implements NodeFilter {
+            if (pcnsLegoMap != null) {
+               System.out.println("   Mapped");
+               mappedCount++;
 
-        @Override
-        public short acceptNode(Node n) {
-            if (n.getNodeType() == Node.TEXT_NODE) {
-                return NodeFilter.FILTER_ACCEPT;
+               if (documentUuid != null) {
+                  PncsLegoMap       pcnsLegoSectionMap = checkPcnsMap(sectionIdStr, sectionValueStr);
+                  EntityManager     em                 = JpaManager.getEntityManager();
+                  EntityTransaction entr               = em.getTransaction();
+
+                  entr.begin();
+
+                  Documents  doc           = checkDocumentTable(documentUuid);
+                  Intervals  interval      = checkIntervalTable(intervalUuid);
+                  Assertions assertion     = new Assertions();
+                  UUID       assertionUuid =
+                     Type5UuidFactory.get(UUID.fromString("c7a482e1-7b90-11e1-b0c4-0800200c9a66"),
+                                          documentUuid.toString() + sequenceInDoc);
+
+                  assertion.setAuuid(assertionUuid.toString());
+                  assertion.setDiscernableEnid(pcnsLegoMap.getDiscernableEnid());
+                  assertion.setDnid(doc);
+                  assertion.setInid(interval);
+                  assertion.setQualifierEnid(pcnsLegoMap.getQualifierEnid());
+                  assertion.setSectionEnid(pcnsLegoSectionMap.getDiscernableEnid());
+                  assertion.setSeqInDoc(sequenceInDoc);
+                  assertion.setValueEnid(pcnsLegoMap.getValueEnid());
+
+                  if (!doc.getAssertionsCollection().contains(assertion)) {
+                     doc.getAssertionsCollection().add(assertion);
+                     em.persist(doc);
+                     System.out.println("Updated doc: " + doc + " with: " + assertion);
+                  } else {
+                     System.out.println("\n\nDoc: " + doc + " already contains: " + assertion + "\n");
+                  }
+
+                  entr.commit();
+               }
+            } else {
+               System.out.println("   NOT Mapped");
+               unmappedCount++;
             }
-            if (n.getNodeType() == Node.CDATA_SECTION_NODE) {
-                return NodeFilter.FILTER_ACCEPT;
-            }
-            return NodeFilter.FILTER_SKIP;
-        }
-    }
+         }
+
+         domNode = walker.nextNode();
+      }
+
+      System.out.println("   Mapped: " + mappedCount);
+      System.out.println("   NOT Mapped: " + unmappedCount);
+   }
+
+   //~--- inner classes -------------------------------------------------------
+
+   private static class SectionNodeFilter implements NodeFilter {
+      @Override
+      public short acceptNode(Node n) {
+         if (n.getNodeName().equals("section")) {
+            return NodeFilter.FILTER_ACCEPT;
+         }
+
+         if (n.getNodeName().equals("obj")) {
+            return NodeFilter.FILTER_ACCEPT;
+         }
+
+         return NodeFilter.FILTER_SKIP;
+      }
+   }
+
+
+   private static class TextNodeFilter implements NodeFilter {
+      @Override
+      public short acceptNode(Node n) {
+         if (n.getNodeType() == Node.TEXT_NODE) {
+            return NodeFilter.FILTER_ACCEPT;
+         }
+
+         if (n.getNodeType() == Node.CDATA_SECTION_NODE) {
+            return NodeFilter.FILTER_ACCEPT;
+         }
+
+         return NodeFilter.FILTER_SKIP;
+      }
+   }
 }

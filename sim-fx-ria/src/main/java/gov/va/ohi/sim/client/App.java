@@ -1,5 +1,6 @@
 package gov.va.ohi.sim.client;
 
+import gov.va.sim.rest.client.SimRestClient;
 import java.util.UUID;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +11,10 @@ import org.ihtsdo.fxmodel.concept.FxConcept;
 import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
+import org.ihtsdo.tk.Ts;
+import org.ihtsdo.tk.api.coordinate.StandardViewCoordinates;
 import org.ihtsdo.tk.binding.Taxonomies;
-import org.ihtsdo.tk.rest.client.RestClient;
+import org.ihtsdo.tk.rest.client.TtkRestClient;
 
 /**
  * Hello world!
@@ -30,13 +33,15 @@ public class App extends Application {
    @Override
    public void start(Stage stage) throws Exception {
       App.stage = stage;
+      SimRestClient.setup(SimRestClient.defaultLocalHostServer);
       System.out.println("javafx.version: " + System.getProperty("javafx.version"));
       System.out.println("javafx.runtime.version: " + System.getProperty("javafx.runtime.version"));
       System.out.println("java.runtime.version: " + System.getProperty("java.runtime.version"));
-      RestClient.setup(RestClient.defaultLocalHostSvr);
-      fxc = RestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
+      TtkRestClient.setup(TtkRestClient.defaultLocalHostServer);
+      TtkRestClient.getRestClient().setGlobalSnapshot(Ts.get().getSnapshot(StandardViewCoordinates.getSnomedLatest()));
+      fxc = TtkRestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
               UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"));
-      fxc = RestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
+      fxc = TtkRestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
               UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), VersionPolicy.ACTIVE_VERSIONS,
               RefexPolicy.REFEX_MEMBERS,
               RelationshipPolicy.ORIGINATING_AND_DESTINATION_TAXONOMY_RELATIONSHIPS);

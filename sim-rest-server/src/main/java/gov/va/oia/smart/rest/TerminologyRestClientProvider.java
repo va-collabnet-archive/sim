@@ -5,11 +5,12 @@
 package gov.va.oia.smart.rest;
 
 import com.sun.jersey.spi.inject.SingletonTypeInjectableProvider;
+import java.io.IOException;
 import javax.annotation.PreDestroy;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 import org.ihtsdo.cc.termstore.PersistentStoreI;
-import org.ihtsdo.tk.rest.client.RestClient;
+import org.ihtsdo.tk.rest.client.TtkRestClient;
 
 /**
  *
@@ -19,8 +20,8 @@ import org.ihtsdo.tk.rest.client.RestClient;
 public class TerminologyRestClientProvider extends SingletonTypeInjectableProvider<Context, PersistentStoreI> {
        //~--- constructors --------------------------------------------------------
 
-   public TerminologyRestClientProvider() {
-      super(PersistentStoreI.class, RestClient.getRestClient());
+   public TerminologyRestClientProvider() throws IOException {
+      super(PersistentStoreI.class, TtkRestClient.getRestClient());
    }
 
    //~--- methods -------------------------------------------------------------

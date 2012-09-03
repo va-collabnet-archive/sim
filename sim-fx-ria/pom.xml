@@ -11,9 +11,13 @@
 
     <name>SIM: Fx Rich Internet Application</name>
     <url>http://maven.apache.org</url>
-
- 
     <dependencies>
+        <dependency>
+            <groupId>gov.va</groupId>
+            <artifactId>sim-rest-client</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>javafx</artifactId>

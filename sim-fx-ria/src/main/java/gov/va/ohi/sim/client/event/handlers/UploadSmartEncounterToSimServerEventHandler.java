@@ -1,7 +1,6 @@
-
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package gov.va.ohi.sim.client.event.handlers;
 
@@ -22,12 +21,12 @@ import org.ihtsdo.helper.io.FileIO;
  *
  * @author kec
  */
-public class UploadSmartEncounterEventHandler implements EventHandler<ActionEvent> {
+public class UploadSmartEncounterToSimServerEventHandler implements EventHandler<ActionEvent> {
    Node ownerNode;
 
    //~--- constructors --------------------------------------------------------
 
-   public UploadSmartEncounterEventHandler(Node ownerNode) {
+   public UploadSmartEncounterToSimServerEventHandler(Node ownerNode) {
       this.ownerNode = ownerNode;
    }
 
@@ -48,7 +47,7 @@ public class UploadSmartEncounterEventHandler implements EventHandler<ActionEven
          try {
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             fr = new FileReader(selectedFile);
-            SimRestClient.get().putSmartDocumentTest(FileIO.readerToString(fr));
+            SimRestClient.get().putSmartDocumentSim(FileIO.readerToString(fr));
          } catch (IOException ex) {
             Logger.getLogger(UploadSmartEncounterEventHandler.class.getName()).log(Level.SEVERE, null, ex);
          } finally {

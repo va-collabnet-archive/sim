@@ -16,6 +16,7 @@
             <ToolBar id="toolBar1" prefWidth="1135.0">
               <items>
                 <Button id="button1" mnemonicParsing="false" text="Button" />
+                <ProgressBar id="progressBar1" fx:id="progressBar" prefHeight="21.0" prefWidth="554.0" progress="0.0" />
               </items>
             </ToolBar>
           </bottom>
@@ -128,6 +129,8 @@
             <Menu id="fileMenu1" mnemonicParsing="false" text="File">
               <items>
                 <MenuItem id="menuItem2" mnemonicParsing="false" text="Upload SMART Encounter..." fx:id="uploadSmartEncounterMenuItem" />
+                <MenuItem id="menuItem2" mnemonicParsing="false" text="Upload SMART Encounter to SIM Server..." fx:id="uploadSmartEncounterToSimServerMenuItem" />
+                <MenuItem id="menuItem2" mnemonicParsing="false" text="Upload SMART Encounter to HDR..." fx:id="uploadSmartEncounterToHDRMenuItem" />
                 <MenuItem id="menuItem1" mnemonicParsing="false" text="Upload LEGOs..." fx:id="loadLegoMenuItem" />
                 <MenuItem id="close1" mnemonicParsing="false" text="Quit" fx:id="quitMenuItem" />
               </items>

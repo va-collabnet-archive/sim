@@ -10,7 +10,7 @@ import org.ihtsdo.fxmodel.concept.FxConcept;
 import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
-import org.ihtsdo.tk.rest.client.RestClient;
+import org.ihtsdo.tk.rest.client.TtkRestClient;
 
 /**
  *
@@ -36,7 +36,7 @@ public class GetConceptTask extends Task<FxConcept> {
 
     @Override
     public FxConcept call() throws Exception {
-        return RestClient.getRestClient().getFxConcept(
+        return TtkRestClient.getRestClient().getFxConcept(
                 conceptUuid,
                 UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), versionPolicy,
                 refexPolicy,

@@ -5,10 +5,11 @@
  */
 package gov.va.ohi.sim.client;
 
-//~--- non-JDK imports --------------------------------------------------------
-
 import gov.va.ohi.sim.client.event.handlers.UploadLegoEventHandler;
 import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterEventHandler;
+import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterToHdrEventHandler;
+import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterToSimServerEventHandler;
+import gov.va.ohi.sim.fx.activity.ActivityPanel;
 import gov.va.ohi.sim.fx.component.view.table.AuthorCellValueFactory;
 import gov.va.ohi.sim.fx.component.view.table.ModuleCellValueFactory;
 import gov.va.ohi.sim.fx.component.view.table.PathCellValueFactory;
@@ -23,7 +24,8 @@ import gov.va.ohi.sim.fx.taxonomy.Icons;
 import gov.va.ohi.sim.fx.taxonomy.SimTreeCell;
 import gov.va.ohi.sim.fx.taxonomy.SimTreeItem;
 import gov.va.ohi.sim.fx.taxonomy.TaxonomyProgressIndicatorSkin;
-
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -31,13 +33,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -46,30 +48,21 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
-
 import org.ihtsdo.fxmodel.FxTaxonomyReferenceWithConcept;
 import org.ihtsdo.fxmodel.concept.FxConcept;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.net.URL;
-
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.Region;
 
 /**
  *
  * @author kec
  */
 public class Sample implements Initializable {
-   private ObjectProperty<FxConcept> focusConcept      = new SimpleObjectProperty<>(this, "focusConcept", App.fxc);
+   private ObjectProperty<FxConcept> focusConcept      = new SimpleObjectProperty<>(this, "focusConcept",
+                                                            App.fxc);
    private GetConceptService         getConceptService = new GetConceptService();
+   @FXML
+   private ProgressIndicator         conceptServiceProgress;
    @FXML
    private TableColumn               descriptionAuthorColumn;
    @FXML
@@ -93,6 +86,10 @@ public class Sample implements Initializable {
    @FXML
    private TableColumn               descriptionUuidColumn;
    @FXML
+   private MenuItem                  loadLegoMenuItem;
+   @FXML
+   private MenuItem                  quitMenuItem;
+   @FXML
    private TableColumn               relationshipAuthorColumn;
    @FXML
    private TableColumn               relationshipDestinationColumn;
@@ -115,15 +112,15 @@ public class Sample implements Initializable {
    @FXML
    private TreeView                  treeView;
    @FXML
-   private Region   veil;
+   private MenuItem                  uploadSmartEncounterMenuItem;
    @FXML
-   private ProgressIndicator conceptServiceProgress;
+   private MenuItem                  uploadSmartEncounterToSimServerMenuItem;
    @FXML
-   private MenuItem quitMenuItem;
+   private MenuItem                  uploadSmartEncounterToHDRMenuItem;
    @FXML
-   private MenuItem loadLegoMenuItem;
+   private Region                    veil;
    @FXML
-   private MenuItem uploadSmartEncounterMenuItem;
+   private ProgressBar               progressBar;
 
    //~--- methods -------------------------------------------------------------
 
@@ -133,7 +130,6 @@ public class Sample implements Initializable {
       veil.visibleProperty().bind(getConceptService.runningProperty());
       conceptServiceProgress.visibleProperty().bind(getConceptService.runningProperty());
       conceptServiceProgress.progressProperty().bind(getConceptService.progressProperty());
-
       setupDescriptionTable();
       setupRelationshipTable();
 
@@ -224,14 +220,15 @@ public class Sample implements Initializable {
       });
       treeView.setRoot(rootItem);
       quitMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-           @Override
-           public void handle(ActionEvent t) {
-               System.exit(0);
-           }
-       });
+         @Override
+         public void handle(ActionEvent t) {
+            System.exit(0);
+         }
+      });
       uploadSmartEncounterMenuItem.setOnAction(new UploadSmartEncounterEventHandler(treeView));
-      loadLegoMenuItem.setOnAction(new UploadLegoEventHandler(treeView));
+      uploadSmartEncounterToHDRMenuItem.setOnAction(new UploadSmartEncounterToHdrEventHandler(treeView));
+      uploadSmartEncounterToSimServerMenuItem.setOnAction(new UploadSmartEncounterToSimServerEventHandler(treeView));
+      loadLegoMenuItem.setOnAction(new UploadLegoEventHandler(treeView, new ActivityPanel(progressBar)));
    }
 
    private void setupDescriptionTable() {
