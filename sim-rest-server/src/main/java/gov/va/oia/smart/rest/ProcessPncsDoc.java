@@ -135,6 +135,7 @@ public class ProcessPncsDoc {
       int              mappedCount   = 0;
       int              unmappedCount = 0;
       short            sequenceInDoc = 0;
+      Documents        doc           = null;
 
       while (domNode != null) {
          sequenceInDoc++;
@@ -201,6 +202,10 @@ public class ProcessPncsDoc {
                      personObj.setGivenName(names[1]);
                      personObj.setFamilyName(names[0]);
                      personObj.setPuuid(patientUuid.toString());
+                     personObj.setpInternalEntryNumber(patientIEN);
+                     personObj.setIdentity(patientIEN);
+                     personObj.setIdAssigningAuthority("USVHA");
+                     personObj.setIdAssigningFacility(institutionName);
                      em.persist(personObj);
                      entr.commit();
                      System.out.println("added patient Persons: " + personObj);
@@ -228,6 +233,11 @@ public class ProcessPncsDoc {
                      personObj.setGivenName(names[1]);
                      personObj.setFamilyName(names[0]);
                      personObj.setPuuid(providerUuid.toString());
+                     personObj.setIdentity(providerUuid.toString());
+                     personObj.setIdAssigningAuthority("USVHA");
+                     personObj.setIdAssigningFacility(institutionName);
+                     
+                     
                      em.persist(personObj);
                      entr.commit();
                      System.out.println("added provider Persons: " + personObj);
@@ -256,7 +266,7 @@ public class ProcessPncsDoc {
                      intervalNid = interval.getInid();
                   }
 
-                  Documents doc = checkDocumentTable(documentUuid);
+                  doc = checkDocumentTable(documentUuid);
 
                   if (doc == null) {
 
@@ -272,6 +282,8 @@ public class ProcessPncsDoc {
                      docObj.setInid(interval);
                      docObj.setPatientnid(patient);
                      docObj.setProvidernid(provider);
+                     docObj.setInstitutionName(institutionName);
+                     docObj.setInstitutionNumber(institutionNumber);
                      em.persist(docObj);
                      entr.commit();
                      System.out.println("added doc: " + docObj);
@@ -358,8 +370,8 @@ public class ProcessPncsDoc {
                   EntityTransaction entr               = em.getTransaction();
 
                   entr.begin();
+                  doc = checkDocumentTable(documentUuid);
 
-                  Documents  doc           = checkDocumentTable(documentUuid);
                   Intervals  interval      = checkIntervalTable(intervalUuid);
                   Assertions assertion     = new Assertions();
                   UUID       assertionUuid =
@@ -396,6 +408,12 @@ public class ProcessPncsDoc {
 
       System.out.println("   Mapped: " + mappedCount);
       System.out.println("   NOT Mapped: " + unmappedCount);
+
+      if (doc != null) {
+         HdrDocument hdrDoc = new HdrDocument(doc);
+
+         System.out.println("\n\nHDR doc:\n" + hdrDoc.toString() + "\n");
+      }
    }
 
    //~--- inner classes -------------------------------------------------------
