@@ -29,7 +29,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 public abstract class ExpressionNode<T extends Object> implements ExpressionNodeBI<T> {
 
-    List<ExpressionRelBI> rels = new ArrayList<ExpressionRelBI>();
+    List<ExpressionRelBI> rels = new ArrayList<>();
     T value;
 
     //~--- methods -------------------------------------------------------------

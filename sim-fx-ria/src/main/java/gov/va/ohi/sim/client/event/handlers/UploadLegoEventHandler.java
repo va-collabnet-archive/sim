@@ -84,9 +84,9 @@ public class UploadLegoEventHandler implements EventHandler<ActionEvent> {
                FileReader fr = null;
 
                try {
-                  System.out.println("Uploading LEGO: " + f.getAbsolutePath());
+                  System.out.println("Uploading LEGO: " + f.getName());
                   fr = new FileReader(f);
-                  SimRestClient.get().putLego(FileIO.readerToString(fr));
+                  SimRestClient.get().putLego(FileIO.readerToString(fr), f.getName().replace(' ', '_'));
                } catch (UniformInterfaceException | IOException ex) {
                   Logger.getLogger(UploadSmartEncounterEventHandler.class.getName()).log(Level.SEVERE, null,
                                    ex);

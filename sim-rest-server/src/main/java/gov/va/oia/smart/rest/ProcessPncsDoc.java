@@ -69,7 +69,7 @@ public class ProcessPncsDoc {
       Query         countMapQuery = em.createNamedQuery("PncsLegoMap.findByPncsIdPncsValue");
 
       countMapQuery.setParameter("pncsValue", valueStr);
-      countMapQuery.setParameter("pncsId", Integer.parseInt(idStr));
+      countMapQuery.setParameter("pncsId", Long.parseLong(idStr));
 
       List obs = countMapQuery.getResultList();
 
@@ -95,7 +95,13 @@ public class ProcessPncsDoc {
       return null;
    }
 
-   protected void process(String pncsDocStr) throws Exception {
+   /**
+    * 
+    * @param pncsDocStr
+    * @return HDR XML document as string.
+    * @throws Exception 
+    */
+   protected Documents process(String pncsDocStr) throws Exception {
       DocumentBuilderFactory factory                  = DocumentBuilderFactory.newInstance();
       DocumentBuilder        builder                  = factory.newDocumentBuilder();
       Document               pncsDoc                  =
@@ -112,6 +118,8 @@ public class ProcessPncsDoc {
       String  patientName       = null;
       String  patientIEN        = null;
       String  authorName        = null;
+      String  authorIEN        = null;
+      String  systemSource        = null;
       String  documentTimestamp = null;
       String  institutionName   = null;
       String  institutionNumber = null;
@@ -153,6 +161,8 @@ public class ProcessPncsDoc {
                   System.out.println("patientName: " + patientName);
                   System.out.println("patientIEN: " + patientIEN);
                   System.out.println("authorName: " + authorName);
+                  System.out.println("authorIEN: " + authorIEN);
+                  System.out.println("systemSource: " + systemSource);
                   System.out.println("timeStamp: " + documentTimestamp);
                   System.out.println("institutionName: " + institutionName);
                   System.out.println("institutionNumber: " + institutionNumber);
@@ -233,7 +243,7 @@ public class ProcessPncsDoc {
                      personObj.setGivenName(names[1]);
                      personObj.setFamilyName(names[0]);
                      personObj.setPuuid(providerUuid.toString());
-                     personObj.setIdentity(providerUuid.toString());
+                     personObj.setIdentity(authorIEN);
                      personObj.setIdAssigningAuthority("USVHA");
                      personObj.setIdAssigningFacility(institutionName);
                      
@@ -338,6 +348,16 @@ public class ProcessPncsDoc {
 
                break;
 
+            case "433254561" :
+               authorIEN = valueStr;
+
+               break;
+
+            case "4332545615" :
+               systemSource = valueStr;
+
+               break;
+
             case "3345456" :
                documentTimestamp = valueStr;
 
@@ -368,8 +388,10 @@ public class ProcessPncsDoc {
                   PncsLegoMap       pcnsLegoSectionMap = checkPcnsMap(sectionIdStr, sectionValueStr);
                   EntityManager     em                 = JpaManager.getEntityManager();
                   EntityTransaction entr               = em.getTransaction();
-
-                  entr.begin();
+                  if (!entr.isActive()) {
+                      entr.begin();
+                  }
+                  
                   doc = checkDocumentTable(documentUuid);
 
                   Intervals  interval      = checkIntervalTable(intervalUuid);
@@ -409,11 +431,7 @@ public class ProcessPncsDoc {
       System.out.println("   Mapped: " + mappedCount);
       System.out.println("   NOT Mapped: " + unmappedCount);
 
-      if (doc != null) {
-         HdrDocument hdrDoc = new HdrDocument(doc);
-
-         System.out.println("\n\nHDR doc:\n" + hdrDoc.toString() + "\n");
-      }
+      return doc;
    }
 
    //~--- inner classes -------------------------------------------------------

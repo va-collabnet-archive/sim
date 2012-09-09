@@ -42,8 +42,9 @@ public class SimRestClient {
       r.type(MediaType.TEXT_PLAIN_TYPE).put(str);
    }
 
-   public void putLego(String str) throws IOException {
-      WebResource r = restClient.resource(serverUrlStr + "smartform/lego");
+   public void putLego(String str, String fileName) throws IOException {
+      WebResource r = restClient.resource(serverUrlStr + "smartform/lego/" + fileName);
+      
 
       r.type(MediaType.TEXT_PLAIN_TYPE).put(str);
    }

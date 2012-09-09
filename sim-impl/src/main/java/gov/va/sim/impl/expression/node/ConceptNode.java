@@ -15,6 +15,8 @@ import org.ihtsdo.tk.api.concept.ConceptVersionBI;
 import java.io.IOException;
 
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -78,5 +80,14 @@ public class ConceptNode extends ExpressionNode<ConceptVersionBI> implements Con
     @Override
     public void appendForHash(StringBuilder sb) throws IOException {
         sb.append(getConceptUuid().toString());
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return "ConceptNode{" + getFullySpecifiedDesc() + '}';
+        } catch (IOException ex) {
+            return "ConceptNode{" + ex.getLocalizedMessage() + '}';
+        }
     }
 }
