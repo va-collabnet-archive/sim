@@ -208,11 +208,17 @@ public class ProcessPncsDoc {
                      personObj.setDob(new Date());
 
                      String[] names = patientName.split(",");
-
-                     personObj.setGivenName(names[1]);
+                     if (names[1].contains(" ")) {
+                         String[] nameParts = names[1].split(" ", 2);
+                         personObj.setGivenName(nameParts[0]);
+                         personObj.setMiddleName(nameParts[1]);
+                     } else {
+                        personObj.setGivenName(names[1]);
+                     }
+                     
                      personObj.setFamilyName(names[0]);
                      personObj.setPuuid(patientUuid.toString());
-                     personObj.setpInternalEntryNumber(patientIEN);
+                     personObj.setPInternalEntryNumber(patientIEN);
                      personObj.setIdentity(patientIEN);
                      personObj.setIdAssigningAuthority("USVHA");
                      personObj.setIdAssigningFacility(institutionName);
@@ -240,10 +246,17 @@ public class ProcessPncsDoc {
 
                      String[] names = authorName.split(",");
 
-                     personObj.setGivenName(names[1]);
+                     if (names[1].contains(" ")) {
+                         String[] nameParts = names[1].split(" ", 2);
+                         personObj.setGivenName(nameParts[0]);
+                         personObj.setMiddleName(nameParts[1]);
+                     } else {
+                        personObj.setGivenName(names[1]);
+                     }
                      personObj.setFamilyName(names[0]);
                      personObj.setPuuid(providerUuid.toString());
                      personObj.setIdentity(authorIEN);
+                     personObj.setPInternalEntryNumber(authorIEN);
                      personObj.setIdAssigningAuthority("USVHA");
                      personObj.setIdAssigningFacility(institutionName);
                      

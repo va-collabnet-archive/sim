@@ -164,11 +164,11 @@ public class Persons implements Serializable {
         this.dob = dob;
     }
 
-    public String getpInternalEntryNumber() {
+    public String getPInternalEntryNumber() {
         return pInternalEntryNumber;
     }
 
-    public void setpInternalEntryNumber(String pInternalEntryNumber) {
+    public void setPInternalEntryNumber(String pInternalEntryNumber) {
         this.pInternalEntryNumber = pInternalEntryNumber;
     }
 

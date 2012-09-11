@@ -61,32 +61,56 @@ sb.append("<literal>").append(dateFormatter2.format(doc.getInid().getIend())).ap
 sb.append("</documentEndDate>");
 sb.append("<patient>");
 sb.append("<identifier>");
-sb.append("<identity>").append(doc.getPatientnid().getpInternalEntryNumber()).append("</identity>");
+sb.append("<identity>").append(doc.getPatientnid().getPInternalEntryNumber()).append("</identity>");
 sb.append("<assigningFacility>").append(doc.getPatientnid().getIdAssigningFacility()).append("</assigningFacility>");
 sb.append("<assigningAuthority>").append(doc.getPatientnid().getIdAssigningAuthority()).append("</assigningAuthority>");
 sb.append("</identifier>");
 sb.append("<name>");
-sb.append("<prefix>").append(doc.getPatientnid().getPrefix()).append("</prefix>");
-sb.append("<given>").append(doc.getPatientnid().getGivenName()).append("</given>");
-sb.append("<middle>").append(doc.getPatientnid().getMiddleName()).append("</middle>");
-sb.append("<family>").append(doc.getPatientnid().getFamilyName()).append("</family>");
-sb.append("<suffix>").append(doc.getPatientnid().getSuffix()).append("</suffix>");
-sb.append("<title>").append(doc.getPatientnid().getTitle()).append("</title>");
+if (doc.getPatientnid().getPrefix() != null && doc.getPatientnid().getPrefix().length() > 0) {
+           sb.append("<prefix>").append(doc.getPatientnid().getPrefix()).append("</prefix>");
+       }
+if (doc.getPatientnid().getGivenName() != null && doc.getPatientnid().getGivenName().length() > 0) {
+           sb.append("<given>").append(doc.getPatientnid().getGivenName()).append("</given>");
+       }
+if (doc.getPatientnid().getMiddleName() != null && doc.getPatientnid().getMiddleName().length() > 0) {
+           sb.append("<middle>").append(doc.getPatientnid().getMiddleName()).append("</middle>");
+       }
+if (doc.getPatientnid().getFamilyName() != null && doc.getPatientnid().getFamilyName().length() > 0) {
+           sb.append("<family>").append(doc.getPatientnid().getFamilyName()).append("</family>");
+       }
+if (doc.getPatientnid().getSuffix() != null && doc.getPatientnid().getSuffix().length() > 0) {
+           sb.append("<suffix>").append(doc.getPatientnid().getSuffix()).append("</suffix>");
+       }
+if (doc.getPatientnid().getTitle() != null && doc.getPatientnid().getTitle().length() > 0) {
+           sb.append("<title>").append(doc.getPatientnid().getTitle()).append("</title>");
+       }
 sb.append("</name>");
 sb.append("</patient>");
 sb.append("<provider>");
 sb.append("<identifier>");
-sb.append("<identity>").append(doc.getProvidernid().getPuuid()).append("</identity>");
+sb.append("<identity>").append(doc.getProvidernid().getPInternalEntryNumber()).append("</identity>");
 sb.append("<assigningFacility>").append(doc.getProvidernid().getIdAssigningFacility()).append("</assigningFacility>");
 sb.append("<assigningAuthority>").append(doc.getProvidernid().getIdAssigningAuthority()).append("</assigningAuthority>");
 sb.append("</identifier>");
 sb.append("<name>");
-sb.append("<prefix>").append(doc.getProvidernid().getPrefix()).append("</prefix>");
-sb.append("<given>").append(doc.getProvidernid().getGivenName()).append("</given>");
-sb.append("<middle>").append(doc.getProvidernid().getMiddleName()).append("</middle>");
-sb.append("<family>").append(doc.getProvidernid().getFamilyName()).append("</family>");
-sb.append("<suffix>").append(doc.getProvidernid().getSuffix()).append("</suffix>");
-sb.append("<title>").append(doc.getProvidernid().getTitle()).append("</title>");
+if (doc.getProvidernid().getPrefix() != null && doc.getProvidernid().getPrefix().length() > 0) {
+           sb.append("<prefix>").append(doc.getProvidernid().getPrefix()).append("</prefix>");
+       }
+if (doc.getProvidernid().getGivenName() != null && doc.getProvidernid().getGivenName().length() > 0) {
+           sb.append("<given>").append(doc.getProvidernid().getGivenName()).append("</given>");
+       }
+if (doc.getProvidernid().getMiddleName() != null && doc.getProvidernid().getMiddleName().length() > 0) {
+           sb.append("<middle>").append(doc.getProvidernid().getMiddleName()).append("</middle>");
+       }
+if (doc.getProvidernid().getFamilyName() != null && doc.getProvidernid().getFamilyName().length() > 0) {
+           sb.append("<family>").append(doc.getProvidernid().getFamilyName()).append("</family>");
+       }
+if (doc.getProvidernid().getSuffix() != null && doc.getProvidernid().getSuffix().length() > 0) {
+           sb.append("<suffix>").append(doc.getProvidernid().getSuffix()).append("</suffix>");
+       }
+if (doc.getProvidernid().getTitle() != null && doc.getProvidernid().getTitle().length() > 0) {
+           sb.append("<title>").append(doc.getProvidernid().getTitle()).append("</title>");
+       }
 sb.append("</name>");
 sb.append("</provider>");
 sb.append("<facility>");
