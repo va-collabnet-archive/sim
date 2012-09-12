@@ -97,9 +97,9 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>gov.va.med.cds.client</groupId>
-            <artifactId>cds-ws-client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sim-hdr-client</artifactId>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
