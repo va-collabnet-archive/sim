@@ -166,5 +166,6 @@
         <module>sim-rest-client</module>
         <module>sim-rest-server</module>
         <module>sim-fx-ria</module>
+        <module>sim-hdr-client</module>
     </modules>
 </project>
