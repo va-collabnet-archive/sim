@@ -65,6 +65,10 @@ public class ProcessPncsDoc {
    }
 
    private PncsLegoMap checkPcnsMap(String idStr, String valueStr) {
+      if ((idStr == null) || (idStr.length() < 1)) {
+         System.out.println("Bad idStr for value: " + valueStr);
+      }
+
       EntityManager em            = JpaManager.getEntityManager();
       Query         countMapQuery = em.createNamedQuery("PncsLegoMap.findByPncsIdPncsValue");
 
@@ -96,10 +100,10 @@ public class ProcessPncsDoc {
    }
 
    /**
-    * 
+    *
     * @param pncsDocStr
     * @return HDR XML document as string.
-    * @throws Exception 
+    * @throws Exception
     */
    protected Documents process(String pncsDocStr) throws Exception {
       DocumentBuilderFactory factory                  = DocumentBuilderFactory.newInstance();
@@ -118,8 +122,8 @@ public class ProcessPncsDoc {
       String  patientName       = null;
       String  patientIEN        = null;
       String  authorName        = null;
-      String  authorIEN        = null;
-      String  systemSource        = null;
+      String  authorIEN         = null;
+      String  systemSource      = null;
       String  documentTimestamp = null;
       String  institutionName   = null;
       String  institutionNumber = null;
@@ -191,148 +195,37 @@ public class ProcessPncsDoc {
                   System.out.println("patientUuid: " + patientUuid);
                   System.out.println("documentUuid: " + documentUuid);
 
-                  Persons patient = checkPersonTable(patientUuid);
-
-                  if (patient == null) {
-
-                     // add patient to person table
-                     EntityManager     em   = JpaManager.getEntityManager();
-                     EntityTransaction entr = em.getTransaction();
-
-                     if (!entr.isActive()) {
-                        entr.begin();
-                     }
-
-                     Persons personObj = new Persons();
-
-                     personObj.setDob(new Date());
-
-                     String[] names = patientName.split(",");
-                     if (names[1].contains(" ")) {
-                         String[] nameParts = names[1].split(" ", 2);
-                         personObj.setGivenName(nameParts[0]);
-                         personObj.setMiddleName(nameParts[1]);
-                     } else {
-                        personObj.setGivenName(names[1]);
-                     }
-                     
-                     personObj.setFamilyName(names[0]);
-                     personObj.setPuuid(patientUuid.toString());
-                     personObj.setPInternalEntryNumber(patientIEN);
-                     personObj.setIdentity(patientIEN);
-                     personObj.setIdAssigningAuthority("USVHA");
-                     personObj.setIdAssigningFacility(institutionName);
-                     em.persist(personObj);
-                     entr.commit();
-                     System.out.println("added patient Persons: " + personObj);
-                     patient = personObj;
-                  }
+                  Persons patient = getPatient(patientUuid, patientName, patientIEN, institutionName);
 
                   patientPnid = patient.getPnid();
 
-                  Persons provider = checkPersonTable(providerUuid);
-
-                  if (provider == null) {
-
-                     // add provider to person table
-                     EntityManager     em   = JpaManager.getEntityManager();
-                     EntityTransaction entr = em.getTransaction();
-
-                     entr.begin();
-
-                     Persons personObj = new Persons();
-
-                     personObj.setDob(new Date());
-
-                     String[] names = authorName.split(",");
-
-                     if (names[1].contains(" ")) {
-                         String[] nameParts = names[1].split(" ", 2);
-                         personObj.setGivenName(nameParts[0]);
-                         personObj.setMiddleName(nameParts[1]);
-                     } else {
-                        personObj.setGivenName(names[1]);
-                     }
-                     personObj.setFamilyName(names[0]);
-                     personObj.setPuuid(providerUuid.toString());
-                     personObj.setIdentity(authorIEN);
-                     personObj.setPInternalEntryNumber(authorIEN);
-                     personObj.setIdAssigningAuthority("USVHA");
-                     personObj.setIdAssigningFacility(institutionName);
-                     
-                     
-                     em.persist(personObj);
-                     entr.commit();
-                     System.out.println("added provider Persons: " + personObj);
-                     provider = personObj;
-                  }
+                  Persons provider = getProvider(providerUuid, authorName, authorIEN, institutionName);
 
                   providerPnid = provider.getPnid();
 
-                  Intervals interval = checkIntervalTable(intervalUuid);
+                  Intervals interval = getInterval(intervalUuid, timestamp);
 
-                  if (interval == null) {
-                     EntityManager     em   = JpaManager.getEntityManager();
-                     EntityTransaction entr = em.getTransaction();
-
-                     entr.begin();
-
-                     Intervals intervalObj = new Intervals();
-
-                     intervalObj.setIstart(timestamp);
-                     intervalObj.setIend(timestamp);
-                     intervalObj.setIuuid(intervalUuid.toString());
-                     em.persist(intervalObj);
-                     entr.commit();
-                     System.out.println("added interval for doc: " + intervalObj);
-                     interval    = intervalObj;
-                     intervalNid = interval.getInid();
-                  }
-
-                  doc = checkDocumentTable(documentUuid);
-
-                  if (doc == null) {
-
-                     // add document to document table
-                     EntityManager     em   = JpaManager.getEntityManager();
-                     EntityTransaction entr = em.getTransaction();
-
-                     entr.begin();
-
-                     Documents docObj = new Documents();
-
-                     docObj.setDuuid(documentUuid.toString());
-                     docObj.setInid(interval);
-                     docObj.setPatientnid(patient);
-                     docObj.setProvidernid(provider);
-                     docObj.setInstitutionName(institutionName);
-                     docObj.setInstitutionNumber(institutionNumber);
-                     em.persist(docObj);
-                     entr.commit();
-                     System.out.println("added doc: " + docObj);
-                     doc         = docObj;
-                     documentNid = doc.getDnid();
-                  }
-
+                  doc = getDocument(doc, documentUuid, interval, patient, provider, institutionName,
+                                    institutionNumber);
                   System.out.println("in doc table: " + checkDocumentTable(documentUuid));
                   System.out.println("patient in person table: " + checkPersonTable(patientUuid));
                   System.out.println("provider in person table: " + checkPersonTable(providerUuid));
-               } else {    // Section header but not "Section=Header"
-                  Node sectionValueNode = sectionNode.getAttributes().getNamedItem("value");
+               }    // Section header but not "Section=Header"
 
-                  if (sectionValueNode != null) {
-                     sectionValueStr = sectionValueNode.getTextContent();
-                  } else {
-                     sectionValueStr = null;
-                  }
+               Node sectionValueNode = sectionNode.getAttributes().getNamedItem("value");
 
-                  Node sectionIdNode = sectionNode.getAttributes().getNamedItem("id");
+               if (sectionValueNode != null) {
+                  sectionValueStr = sectionValueNode.getTextContent();
+               } else {
+                  sectionValueStr = null;
+               }
 
-                  if (sectionIdNode != null) {
-                     sectionIdStr = sectionIdNode.getTextContent();
-                  } else {
-                     sectionIdStr = null;
-                  }
+               Node sectionIdNode = sectionNode.getAttributes().getNamedItem("id");
+
+               if (sectionIdNode != null) {
+                  sectionIdStr = sectionIdNode.getTextContent();
+               } else {
+                  sectionIdStr = null;
                }
             }
 
@@ -398,39 +291,47 @@ public class ProcessPncsDoc {
                mappedCount++;
 
                if (documentUuid != null) {
-                  PncsLegoMap       pcnsLegoSectionMap = checkPcnsMap(sectionIdStr, sectionValueStr);
-                  EntityManager     em                 = JpaManager.getEntityManager();
-                  EntityTransaction entr               = em.getTransaction();
-                  if (!entr.isActive()) {
-                      entr.begin();
-                  }
-                  
-                  doc = checkDocumentTable(documentUuid);
+                  PncsLegoMap pcnsLegoSectionMap = checkPcnsMap(sectionIdStr, sectionValueStr);
 
-                  Intervals  interval      = checkIntervalTable(intervalUuid);
-                  Assertions assertion     = new Assertions();
-                  UUID       assertionUuid =
-                     Type5UuidFactory.get(UUID.fromString("c7a482e1-7b90-11e1-b0c4-0800200c9a66"),
-                                          documentUuid.toString() + sequenceInDoc);
-
-                  assertion.setAuuid(assertionUuid.toString());
-                  assertion.setDiscernableEnid(pcnsLegoMap.getDiscernableEnid());
-                  assertion.setDnid(doc);
-                  assertion.setInid(interval);
-                  assertion.setQualifierEnid(pcnsLegoMap.getQualifierEnid());
-                  assertion.setSectionEnid(pcnsLegoSectionMap.getDiscernableEnid());
-                  assertion.setSeqInDoc(sequenceInDoc);
-                  assertion.setValueEnid(pcnsLegoMap.getValueEnid());
-
-                  if (!doc.getAssertionsCollection().contains(assertion)) {
-                     doc.getAssertionsCollection().add(assertion);
-                     em.persist(doc);
-                     System.out.println("Updated doc: " + doc + " with: " + assertion);
+                  if (pcnsLegoSectionMap == null) {
+                     System.out.println("   Section NOT Mapped.  sectionIdStr: " + sectionIdStr
+                                        + " sectionValueStr: '" + sectionValueStr
+                                        + "'\n   Assertion will not persist because section is not mapped.");
                   } else {
-                     System.out.println("\n\nDoc: " + doc + " already contains: " + assertion + "\n");
-                  }
+                     EntityManager     em   = JpaManager.getEntityManager();
+                     EntityTransaction entr = em.getTransaction();
 
-                  entr.commit();
+                     if (!entr.isActive()) {
+                        entr.begin();
+                     }
+
+                     doc = checkDocumentTable(documentUuid);
+
+                     Intervals  interval      = checkIntervalTable(intervalUuid);
+                     Assertions assertion     = new Assertions();
+                     UUID       assertionUuid =
+                        Type5UuidFactory.get(UUID.fromString("c7a482e1-7b90-11e1-b0c4-0800200c9a66"),
+                                             documentUuid.toString() + sequenceInDoc);
+
+                     assertion.setAuuid(assertionUuid.toString());
+                     assertion.setDiscernableEnid(pcnsLegoMap.getDiscernableEnid());
+                     assertion.setDnid(doc);
+                     assertion.setInid(interval);
+                     assertion.setQualifierEnid(pcnsLegoMap.getQualifierEnid());
+                     assertion.setSectionEnid(pcnsLegoSectionMap.getDiscernableEnid());
+                     assertion.setSeqInDoc(sequenceInDoc);
+                     assertion.setValueEnid(pcnsLegoMap.getValueEnid());
+
+                     if (!doc.getAssertionsCollection().contains(assertion)) {
+                        doc.getAssertionsCollection().add(assertion);
+                        em.persist(doc);
+                        System.out.println("Updated doc: " + doc + " with: " + assertion);
+                     } else {
+                        System.out.println("\n\nDoc: " + doc + " already contains: " + assertion + "\n");
+                     }
+
+                     entr.commit();
+                  }
                }
             } else {
                System.out.println("   NOT Mapped");
@@ -445,6 +346,151 @@ public class ProcessPncsDoc {
       System.out.println("   NOT Mapped: " + unmappedCount);
 
       return doc;
+   }
+
+   //~--- get methods ---------------------------------------------------------
+
+   private Documents getDocument(Documents doc, UUID documentUuid, Intervals interval, Persons patient,
+                                 Persons provider, String institutionName, String institutionNumber) {
+      int documentNid;
+
+      doc = checkDocumentTable(documentUuid);
+
+      if (doc == null) {
+
+         // add document to document table
+         EntityManager     em   = JpaManager.getEntityManager();
+         EntityTransaction entr = em.getTransaction();
+
+         entr.begin();
+
+         Documents docObj = new Documents();
+
+         docObj.setDuuid(documentUuid.toString());
+         docObj.setInid(interval);
+         docObj.setPatientnid(patient);
+         docObj.setProvidernid(provider);
+         docObj.setInstitutionName(institutionName);
+         docObj.setInstitutionNumber(institutionNumber);
+         em.persist(docObj);
+         entr.commit();
+         System.out.println("added doc: " + docObj);
+         doc         = docObj;
+         documentNid = doc.getDnid();
+      }
+
+      return doc;
+   }
+
+   private Intervals getInterval(UUID intervalUuid, Date timestamp) {
+      int       intervalNid;
+      Intervals interval = checkIntervalTable(intervalUuid);
+
+      if (interval == null) {
+         EntityManager     em   = JpaManager.getEntityManager();
+         EntityTransaction entr = em.getTransaction();
+
+         entr.begin();
+
+         Intervals intervalObj = new Intervals();
+
+         intervalObj.setIstart(timestamp);
+         intervalObj.setIend(timestamp);
+         intervalObj.setIuuid(intervalUuid.toString());
+         em.persist(intervalObj);
+         entr.commit();
+         System.out.println("added interval for doc: " + intervalObj);
+         interval    = intervalObj;
+         intervalNid = interval.getInid();
+      }
+
+      return interval;
+   }
+
+   private Persons getPatient(UUID patientUuid, String patientName, String patientIEN,
+                              String institutionName) {
+      Persons patient = checkPersonTable(patientUuid);
+
+      if (patient == null) {
+
+         // add patient to person table
+         EntityManager     em   = JpaManager.getEntityManager();
+         EntityTransaction entr = em.getTransaction();
+
+         if (!entr.isActive()) {
+            entr.begin();
+         }
+
+         Persons personObj = new Persons();
+
+         personObj.setDob(new Date());
+
+         String[] names = patientName.split(",");
+
+         if (names[1].contains(" ")) {
+            String[] nameParts = names[1].split(" ", 2);
+
+            personObj.setGivenName(nameParts[0]);
+            personObj.setMiddleName(nameParts[1]);
+         } else {
+            personObj.setGivenName(names[1]);
+         }
+
+         personObj.setFamilyName(names[0]);
+         personObj.setPuuid(patientUuid.toString());
+         personObj.setPInternalEntryNumber(patientIEN);
+         personObj.setIdentity(patientIEN);
+         personObj.setIdAssigningAuthority("USVHA");
+         personObj.setIdAssigningFacility(institutionName);
+         em.persist(personObj);
+         entr.commit();
+         System.out.println("added patient Persons: " + personObj);
+         patient = personObj;
+      }
+
+      return patient;
+   }
+
+   private Persons getProvider(UUID providerUuid, String authorName, String authorIEN,
+                               String institutionName) {
+      Persons provider = checkPersonTable(providerUuid);
+
+      if (provider == null) {
+
+         // add provider to person table
+         EntityManager     em   = JpaManager.getEntityManager();
+         EntityTransaction entr = em.getTransaction();
+
+         entr.begin();
+
+         Persons personObj = new Persons();
+
+         personObj.setDob(new Date());
+
+         String[] names = authorName.split(",");
+
+         if (names[1].contains(" ")) {
+            String[] nameParts = names[1].split(" ", 2);
+
+            personObj.setGivenName(nameParts[0]);
+            personObj.setMiddleName(nameParts[1]);
+         } else {
+            personObj.setGivenName(names[1]);
+         }
+
+         personObj.setFamilyName(names[0]);
+         personObj.setPuuid(providerUuid.toString());
+         personObj.setIdentity(authorIEN);
+         personObj.setPInternalEntryNumber(authorIEN);
+         personObj.setIdAssigningAuthority("USVHA");
+         personObj.setIdAssigningFacility(institutionName);
+         em.persist(personObj);
+         entr.commit();
+         System.out.println("added provider Persons: " + personObj);
+         provider = personObj;
+      }
+
+      return provider;
    }
 
    //~--- inner classes -------------------------------------------------------
