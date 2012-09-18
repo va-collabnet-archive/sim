@@ -42,9 +42,10 @@ public class SmartFormResource {
    private static final String LOCAL_HOST_WS_ADDRESS          =
       "http://localhost:8088/cds-wsclient/cds-service/";
    private static final String SMART_FORMS_CREATE_TEMPLATE_ID = "SmartFormCreate1";
+   private static final String SMART_FORMS_READ_FILTER_ID     = "SMART_FORM_SINGLE_PATIENT_ALL_DATA_FILTER";
+   private static final String SMART_FORMS_READ_TEMPLATE_ID   = "SmartFormRead1";
    private static String       WS_ADDRESS                     =
       "http://vahdrdvwls02.aac.va.gov:7241/cds-wsclient/cds-service";
-
    private static final Logger logger                         =
       Logger.getLogger(SmartFormResource.class.getName());
 
@@ -53,7 +54,6 @@ public class SmartFormResource {
    static {
       if (System.getProperty("SmartFormResource.WS_ADDRESS") == null) {
          System.setProperty("SmartFormResource.WS_ADDRESS", WS_ADDRESS);
-         
       }
    }
 
@@ -89,8 +89,8 @@ public class SmartFormResource {
       Documents      doc       = processor.process(str);
 
       if (doc != null) {
-            String                                               address =
-               System.getProperty("SmartFormResource.WS_ADDRESS");
+         String address = System.getProperty("SmartFormResource.WS_ADDRESS");
+
          try {
 
             // Populate the template XML string with the create template identifier,
@@ -99,7 +99,7 @@ public class SmartFormResource {
             HdrDocument hdrDocument = new HdrDocument(doc);
 
             // Create the CDS service proxy object that abstracts the remoting mechanism.
-            ClinicalDataServiceSynchronousInterfacePortTypeProxy proxy   =
+            ClinicalDataServiceSynchronousInterfacePortTypeProxy proxy =
                new ClinicalDataServiceSynchronousInterfacePortTypeProxy(address);
 
             // This makes the remote call to CDS. The parameters are as follows.
@@ -116,16 +116,30 @@ public class SmartFormResource {
             String response = proxy.createClinicalData(stringToSend, SMART_FORMS_CREATE_TEMPLATE_ID,
                                  UUID.randomUUID().toString());
 
-            logger.log(Level.INFO, "CDS Create Response: {0}", response);
+            logger.log(Level.INFO, "HDR Create Response: {0}", response);
+
             if (response.contains("fatalErrors")) {
-                return Response.notModified("Error sending to HDR: " + address + " Fault:\n"+ response).build();
+               return Response.notModified("Error sending to HDR: " + address + " Fault:\n"
+                                           + response).build();
+            }
+
+            HdrRetrieval hdrRetrieval = new HdrRetrieval(doc);
+            response     = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID,
+                                           hdrRetrieval.toString(), SMART_FORMS_READ_FILTER_ID,
+                                           UUID.randomUUID().toString());
+            logger.log(Level.INFO, "HDR Read Response: {0}", response);
+
+            if (response.contains("fatalErrors")) {
+               return Response.notModified("Error retrieving from HDR: " + address + " Fault:\n"
+                                           + response).build();
             }
          } catch (AxisFault e) {
-             logger.log(Level.SEVERE, "Error sending to HDR: " + address + " Fault: "+ e.getFaultString(), e);
-             
-             return Response.notModified("Error sending to HDR: " + address + " Fault: "+ e.getFaultString()).build();
+            logger.log(Level.SEVERE, "Error sending to HDR: " + address + " Fault: " + e.getFaultString(), e);
+
+            return Response.notModified("Error sending to HDR: " + address + " Fault: "
+                                        + e.getFaultString()).build();
          } catch (Exception e) {
-             logger.log(Level.SEVERE, "Error sending to HDR", e);
+            logger.log(Level.SEVERE, "Error sending to HDR", e);
 
             return Response.notAcceptable(new ArrayList<Variant>()).build();
          }

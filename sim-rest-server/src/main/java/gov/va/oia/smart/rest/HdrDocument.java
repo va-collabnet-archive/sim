@@ -23,8 +23,8 @@ public class HdrDocument {
    /**
     * Do we really need two different date formats?
     */
-   private static final String DATE_FORMAT_PATTERN  = "yyyy-MM-dd'T'HH:mm:ssZZ";
-   private static final String DATE_FORMAT_PATTERN2 = "yyyyMMddHHmmssZ";
+   public static final String DATE_FORMAT_PATTERN  = "yyyy-MM-dd'T'HH:mm:ssZZ";
+   public static final String DATE_FORMAT_PATTERN2 = "yyyyMMddHHmmssZ";
 
    //~--- fields --------------------------------------------------------------
 
@@ -36,8 +36,6 @@ public class HdrDocument {
       //SimpleDateFormat dateFormatter  = new SimpleDateFormat(DATE_FORMAT_PATTERN);
       SimpleDateFormat dateFormatter2 = new SimpleDateFormat(DATE_FORMAT_PATTERN2);
       DateTimeFormatter dtf = DateTimeFormat.forPattern(DATE_FORMAT_PATTERN);
-      Date             docStart       = doc.getInid().getIstart();
-      Date             docEnd         = doc.getInid().getIend();
       StringBuilder    sb             = new StringBuilder();
 
       //J-

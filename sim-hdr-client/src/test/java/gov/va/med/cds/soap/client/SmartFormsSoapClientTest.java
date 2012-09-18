@@ -70,6 +70,7 @@ public class SmartFormsSoapClientTest {
 			//   3) The Smart Forms Filter Identifier. The only filter supported for the CDS 3.3 release is 
 			//      'SMART_FORM_SINGLE_PATIENT_ALL_DATA_FILTER'.
 			//   4) The Request Identifier. This is a unique identifier that the request can be tracked with.
+                        System.out.println("ReadRequest: " + readRequest);
 			String response = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID, readRequest, SMART_FORMS_READ_FILTER_ID, UUID.randomUUID().toString());
 			
 			// Some basic assertions that the test succeeded.
