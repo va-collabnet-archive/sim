@@ -124,9 +124,10 @@ public class SmartFormResource {
             }
 
             HdrRetrieval hdrRetrieval = new HdrRetrieval(doc);
-            response     = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID,
-                                           hdrRetrieval.toString(), SMART_FORMS_READ_FILTER_ID,
-                                           UUID.randomUUID().toString());
+
+            logger.log(Level.INFO, "HDR Read request: {0}", hdrRetrieval.hdrRetrievalString);
+            response = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID, hdrRetrieval.toString(),
+                                               SMART_FORMS_READ_FILTER_ID, UUID.randomUUID().toString());
             logger.log(Level.INFO, "HDR Read Response: {0}", response);
 
             if (response.contains("fatalErrors")) {
@@ -158,7 +159,13 @@ public class SmartFormResource {
       if (doc != null) {
          HdrDocument hdrDocument = new HdrDocument(doc);
 
-         System.out.println(hdrDocument.toString());
+         logger.log(Level.INFO, "HDR write request: {0}", hdrDocument.hdrDocString);
+
+         HdrRetrieval retrieval = new HdrRetrieval(doc);
+
+         logger.log(Level.INFO, "HDR Read request: {0}", retrieval.hdrRetrievalString);
+         
+         retrieval.validate();
       }
 
       return Response.created(uriInfo.getAbsolutePath()).build();
