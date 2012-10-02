@@ -24,41 +24,24 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author kec
  */
 public class HdrRetrieval {
+   private static final String SMART_FORMS_READ_REQUEST1 =
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<filter:filter vhimVersion=\"Vhim_4_00\" xsi:schemaLocation=\"Filter Smart_Form_Single_Patient_All_Data_Filter.xsd\" xmlns:filter=\"Filter\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><filterId>SMART_FORM_SINGLE_PATIENT_ALL_DATA_FILTER</filterId><clientName>PNCS</clientName><clientRequestInitiationTime>2001-12-17T09:30:47Z</clientRequestInitiationTime><patients><resolvedIdentifiers><assigningAuthority>USVHA</assigningAuthority><assigningFacility>PATIENT_ASSIGNING_FACILITY</assigningFacility><identity>PATIENT_IDENTITY</identity></resolvedIdentifiers></patients><entryPointFilter queryName=\"ID_1\"><domainEntryPoint>SmartFormDocument</domainEntryPoint><startDate>2010-07-01</startDate><endDate>2013-08-31</endDate><queryTimeoutSeconds>60</queryTimeoutSeconds></entryPointFilter></filter:filter>";
+
+   //~--- fields --------------------------------------------------------------
+
    String hdrRetrievalString;
 
    //~--- constructors --------------------------------------------------------
 
    public HdrRetrieval(Documents doc) {
-      StringBuilder sb = new StringBuilder();
-         DateTimeFormatter dtf = DateTimeFormat.forPattern(HdrDocument.DATE_FORMAT_PATTERN);
-   
-      //J-
-sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-sb.append("<filter:filter vhimVersion=\"Vhim_4_00\"");
-sb.append("xsi:schemaLocation=\"Filter Smart_Form_Single_Patient_All_Data_Filter.xsd\" xmlns:filter=\"Filter\"");
-sb.append("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
-sb.append("<filterId>SMART_FORM_SINGLE_PATIENT_ALL_DATA_FILTER</filterId>");
-sb.append("<clientName>PNCS</clientName>");
-sb.append("<clientRequestInitiationTime>").append(dtf.print(System.currentTimeMillis())).append("</clientRequestInitiationTime>");
-sb.append("<patients>");
-sb.append("<resolvedIdentifiers>");
-sb.append("<assigningAuthority>USVHA</assigningAuthority>");
-sb.append("<assigningFacility>552</assigningFacility>");
-sb.append("<identity>").append(doc.getPatientnid().getPInternalEntryNumber()).append("</identity>");
-sb.append("</resolvedIdentifiers>");
-sb.append("</patients>");
-sb.append("<entryPointFilter queryName=\"ID_1\">");
-sb.append("<domainEntryPoint>SmartFormDocument</domainEntryPoint>");
-sb.append("<startDate>2012-07-01</startDate>");
-sb.append("<endDate>2013-12-31</endDate>");
-sb.append("<queryTimeoutSeconds>60</queryTimeoutSeconds>");
-sb.append("<otherQueryParameters>");
-sb.append("<documentNativeId>").append(doc.getDnid()).append("</documentNativeId>");
-sb.append("</otherQueryParameters>");
-sb.append("</entryPointFilter>");
-sb.append("</filter:filter>");
-        //J+
-      hdrRetrievalString = sb.toString();
+      StringBuilder     sb  = new StringBuilder();
+      DateTimeFormatter dtf = DateTimeFormat.forPattern(HdrDocument.DATE_FORMAT_PATTERN);
+
+      hdrRetrievalString = SMART_FORMS_READ_REQUEST1.
+              replaceFirst("PATIENT_IDENTITY",doc.getPatientnid().getPInternalEntryNumber()).
+              replaceFirst("PATIENT_ASSIGNING_FACILITY", "552");
+      
+      
    }
 
    //~--- methods -------------------------------------------------------------
@@ -74,14 +57,14 @@ sb.append("</filter:filter>");
    }
 
    public boolean validate() {
-      boolean  valid     = true;
-        try {
-            parse(new ByteArrayInputStream(hdrRetrievalString.getBytes()));
-        } catch (SAXException | ParserConfigurationException | IOException ex) {
-            Logger.getLogger(HdrRetrieval.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-      
+      boolean valid = true;
+
+      try {
+         parse(new ByteArrayInputStream(hdrRetrievalString.getBytes()));
+      } catch (SAXException | ParserConfigurationException | IOException ex) {
+         Logger.getLogger(HdrRetrieval.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
       String[] encodings = { "UTF-8", "UTF-16", "ISO-8859-1" };
 
       for (String actual : encodings) {

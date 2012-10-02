@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>2.2</javafx.version>
-        <jersey-version>1.13</jersey-version>
+        <jersey-version>1.14</jersey-version>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
     <build>

@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -119,18 +120,16 @@ public class SmartFormResource {
             logger.log(Level.INFO, "HDR Create Response: {0}", response);
 
             if (response.contains("fatalErrors")) {
-               return Response.notModified("Error sending to HDR: " + address + " Fault:\n"
-                                           + response).build();
+               if (retrievePatientDocuments(doc, proxy, address)) {
+                  return Response.notModified("Error retrieving from HDR, but retireval ok: " + address + " Fault:\n"
+                                              + response).build();
+               } else {
+                  return Response.notModified("Error sending to HDR, and retrieval error: " + address + " Fault:\n"
+                                              + response).build();
+               }
             }
 
-            HdrRetrieval hdrRetrieval = new HdrRetrieval(doc);
-
-            logger.log(Level.INFO, "HDR Read request: {0}", hdrRetrieval.hdrRetrievalString);
-            response = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID, hdrRetrieval.toString(),
-                                               SMART_FORMS_READ_FILTER_ID, UUID.randomUUID().toString());
-            logger.log(Level.INFO, "HDR Read Response: {0}", response);
-
-            if (response.contains("fatalErrors")) {
+            if (retrievePatientDocuments(doc, proxy, address)) {
                return Response.notModified("Error retrieving from HDR: " + address + " Fault:\n"
                                            + response).build();
             }
@@ -164,7 +163,6 @@ public class SmartFormResource {
          HdrRetrieval retrieval = new HdrRetrieval(doc);
 
          logger.log(Level.INFO, "HDR Read request: {0}", retrieval.hdrRetrievalString);
-         
          retrieval.validate();
       }
 
@@ -190,5 +188,23 @@ public class SmartFormResource {
       }
 
       return Response.created(uriInfo.getAbsolutePath()).build();
+   }
+
+   private boolean retrievePatientDocuments(Documents doc,
+           ClinicalDataServiceSynchronousInterfacePortTypeProxy proxy, String address)
+           throws RemoteException {
+      String       response;
+      HdrRetrieval hdrRetrieval = new HdrRetrieval(doc);
+
+      logger.log(Level.INFO, "HDR Read request: {0}", hdrRetrieval.hdrRetrievalString);
+      response = proxy.readClinicalData1(SMART_FORMS_READ_TEMPLATE_ID, hdrRetrieval.toString(),
+                                         SMART_FORMS_READ_FILTER_ID, UUID.randomUUID().toString());
+      logger.log(Level.INFO, "HDR Read Response: {0}", response);
+
+      if (response.contains("fatalErrors")) {
+         return true;
+      }
+
+      return false;
    }
 }

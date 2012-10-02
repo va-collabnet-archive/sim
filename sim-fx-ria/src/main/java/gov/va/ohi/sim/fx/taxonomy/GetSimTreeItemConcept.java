@@ -18,8 +18,9 @@ import org.ihtsdo.fxmodel.concept.component.relationship.FxRelationshipVersion;
 import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
+import org.ihtsdo.tk.api.coordinate.StandardViewCoordinates;
 import org.ihtsdo.tk.rest.client.TtkRestClient;
-
+ 
 /**
  *
  * @author kec
@@ -66,7 +67,7 @@ class GetSimTreeItemConcept implements Callable<Boolean> {
       }
 
       concept = TtkRestClient.getRestClient().getFxConcept(reference,
-              UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), versionPolicy, refexPolicy,
+              StandardViewCoordinates.getSnomedLatest(), versionPolicy, refexPolicy,
               relationshipPolicy);
 
       if ((concept.getConceptAttributes() == null) || concept.getConceptAttributes().getVersions().isEmpty()

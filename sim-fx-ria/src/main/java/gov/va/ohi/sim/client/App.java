@@ -1,7 +1,6 @@
 package gov.va.ohi.sim.client;
 
 import gov.va.sim.rest.client.SimRestClient;
-import java.util.UUID;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,9 +39,9 @@ public class App extends Application {
       TtkRestClient.setup(TtkRestClient.defaultLocalHostServer);
       TtkRestClient.getRestClient().setGlobalSnapshot(Ts.get().getSnapshot(StandardViewCoordinates.getSnomedLatest()));
       fxc = TtkRestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
-              UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"));
+              StandardViewCoordinates.getSnomedLatest());
       fxc = TtkRestClient.getRestClient().getFxConcept(Taxonomies.SNOMED.getUuids()[0],
-              UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), VersionPolicy.ACTIVE_VERSIONS,
+              StandardViewCoordinates.getSnomedLatest(), VersionPolicy.ACTIVE_VERSIONS,
               RefexPolicy.REFEX_MEMBERS,
               RelationshipPolicy.ORIGINATING_AND_DESTINATION_TAXONOMY_RELATIONSHIPS);
 

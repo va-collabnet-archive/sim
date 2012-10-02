@@ -10,6 +10,7 @@ import org.ihtsdo.fxmodel.concept.FxConcept;
 import org.ihtsdo.fxmodel.fetchpolicy.RefexPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.RelationshipPolicy;
 import org.ihtsdo.fxmodel.fetchpolicy.VersionPolicy;
+import org.ihtsdo.tk.api.coordinate.StandardViewCoordinates;
 import org.ihtsdo.tk.rest.client.TtkRestClient;
 
 /**
@@ -38,7 +39,7 @@ public class GetConceptTask extends Task<FxConcept> {
     public FxConcept call() throws Exception {
         return TtkRestClient.getRestClient().getFxConcept(
                 conceptUuid,
-                UUID.fromString("d0a05080-b5de-11e1-afa6-0800200c9a66"), versionPolicy,
+                StandardViewCoordinates.getSnomedLatest(), versionPolicy,
                 refexPolicy,
                 relationshipPolicy);
     }
