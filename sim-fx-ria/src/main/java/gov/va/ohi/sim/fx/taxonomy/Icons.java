@@ -43,7 +43,7 @@ public enum Icons {
     }
         
     private static Image setupImage(String image) {
-        Image icon = new Image(Icons.class.getResourceAsStream(image));
+        Image icon = new Image(image, false);
         return icon;
     }
 

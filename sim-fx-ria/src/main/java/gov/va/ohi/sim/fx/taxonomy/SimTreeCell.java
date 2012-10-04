@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.shape.CircleBuilder;
 import org.ihtsdo.concurrency.FutureHelper;
 
 /**
@@ -104,6 +105,7 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
     @Override
     protected void updateItem(FxTaxonomyReferenceWithConcept t, boolean bln) {
         super.updateItem(t, bln);
+        double opacity = 0.0;
 
         if (t != null) {
             final SimTreeItem treeItem = (SimTreeItem) getTreeItem();
@@ -113,11 +115,11 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
                     BorderPane graphicBorderPane = new BorderPane();
                     int multiParentInset = treeItem.getMultiParentDepth() * 16;
                     Rectangle leftRect =
-                            RectangleBuilder.create().width(multiParentInset).height(16).fill(Color.WHITE).build();
+                            RectangleBuilder.create().width(multiParentInset).height(16).build();
 
-                    graphicBorderPane.setCenter(treeItem.getGraphic());
-                    leftRect.setOpacity(0);
+                    leftRect.setOpacity(opacity);
                     graphicBorderPane.setLeft(leftRect);
+                    graphicBorderPane.setCenter(treeItem.computeGraphic());
                     setGraphic(graphicBorderPane);
                 }
 
@@ -126,28 +128,28 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
                 return;
             }
 
-            BorderPane borderPane = new BorderPane();
+            BorderPane disclosureBorderPane = new BorderPane();
 
             if (treeItem.isExpanded()) {
                 ImageView iv = Icons.TAXONOMY_CLOSE.getImageView();
 
                 if (treeItem.getProgressIndicator() != null) {
-                    borderPane.setCenter(treeItem.getProgressIndicator());
+                    disclosureBorderPane.setCenter(treeItem.getProgressIndicator());
                 } else {
-                    borderPane.setCenter(iv);
+                    disclosureBorderPane.setCenter(iv);
                 }
 
-                setDisclosureNode(borderPane);
+                setDisclosureNode(disclosureBorderPane);
             } else {
                 ImageView iv = Icons.TAXONOMY_OPEN.getImageView();
 
                 if (treeItem.getProgressIndicator() != null) {
-                    borderPane.setCenter(treeItem.getProgressIndicator());
+                    disclosureBorderPane.setCenter(treeItem.getProgressIndicator());
                 } else {
-                    borderPane.setCenter(iv);
+                    disclosureBorderPane.setCenter(iv);
                 }
 
-                setDisclosureNode(borderPane);
+                setDisclosureNode(disclosureBorderPane);
             }
 
             setText(t.toString());
@@ -155,21 +157,21 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
             BorderPane graphicBorderPane = new BorderPane();
 
             if (treeItem.isLeaf()) {
-                graphicBorderPane.setCenter(treeItem.getGraphic());
                 int multiParentInset = treeItem.getMultiParentDepth() * 16;
                 Rectangle leftRect =
-                        RectangleBuilder.create().width(multiParentInset).height(16).fill(Color.WHITE).build();
+                        RectangleBuilder.create().width(multiParentInset).height(16).build();
 
-                leftRect.setOpacity(0);
+                leftRect.setOpacity(opacity);
                 graphicBorderPane.setLeft(leftRect);
+                    graphicBorderPane.setCenter(treeItem.computeGraphic());
                 setGraphic(graphicBorderPane);
             } else {
-                graphicBorderPane.setCenter(treeItem.getGraphic());
 
-                Rectangle leftRect = RectangleBuilder.create().width(6).height(16).fill(Color.WHITE).build();
+                Rectangle leftRect = RectangleBuilder.create().width(6).height(16).build();
 
-                leftRect.setOpacity(0);
+                leftRect.setOpacity(opacity);
                 graphicBorderPane.setLeft(leftRect);
+                    graphicBorderPane.setCenter(treeItem.computeGraphic());
                 setGraphic(graphicBorderPane);
             }
         }

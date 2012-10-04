@@ -39,6 +39,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.CanvasBuilder;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -165,31 +174,31 @@ public class SimTreeItem extends TreeItem<FxTaxonomyReferenceWithConcept> implem
                 o.getValue().getRelationshipVersion().getOriginReference().getText());
     }
 
-    public void computeGraphic() {
+    public Node computeGraphic() {
         FxTaxonomyReferenceWithConcept ref = getValue();
         if (ref != null && ref.getRelationshipVersion() == null) {
-            setGraphic(Icons.ROOT.getImageView());
+            return Icons.ROOT.getImageView();
         } else if (ref != null && ref.getConcept() != null && ref.getConcept().getOriginRelationships().isEmpty()) {
-            setGraphic(Icons.ROOT.getImageView());
+            return Icons.ROOT.getImageView();
         } else if (isDefined() && (isMultiParent() || multiParentDepth > 0)) {
+            
             if (isSecondaryParentOpened()) {
-                setGraphic(Icons.DEFINED_MULTI_PARENT_OPEN.getImageView());
+                return Icons.DEFINED_MULTI_PARENT_OPEN.getImageView();
             } else {
-                setGraphic(Icons.DEFINED_MULTI_PARENT_CLOSED.getImageView());
+                return Icons.DEFINED_MULTI_PARENT_CLOSED.getImageView();
             }
         } else if (!isDefined() && (isMultiParent() || multiParentDepth > 0)) {
             if (isSecondaryParentOpened()) {
-                setGraphic(Icons.PRIMITIVE_MULTI_PARENT_OPEN.getImageView());
+                return Icons.PRIMITIVE_MULTI_PARENT_OPEN.getImageView();
             } else {
-                setGraphic(Icons.PRIMITIVE_MULTI_PARENT_CLOSED.getImageView());
+                return Icons.PRIMITIVE_MULTI_PARENT_CLOSED.getImageView();
             }
         } else if (isDefined() && !isMultiParent()) {
-            setGraphic(Icons.DEFINED_SINGLE_PARENT.getImageView());
-        } else if (!isDefined() && !isMultiParent()) {
-            setGraphic(Icons.PRIMITIVE_SINGLE_PARENT.getImageView());
+            return Icons.DEFINED_SINGLE_PARENT.getImageView();
         }
+        return Icons.PRIMITIVE_SINGLE_PARENT.getImageView();
     }
-
+ 
     @Override
     public TreeItem<FxTaxonomyReferenceWithConcept> nextSibling() {
         return super.nextSibling();

@@ -177,7 +177,7 @@ public class Sample implements Initializable {
             }
          }
       });
-      treeView.setShowRoot(true);
+      treeView.setShowRoot(false);
 
       FxTaxonomyReferenceWithConcept root       = new FxTaxonomyReferenceWithConcept();
       SimTreeItem                    rootItem   = new SimTreeItem(root);
@@ -188,6 +188,7 @@ public class Sample implements Initializable {
       SimTreeItem item = new SimTreeItem(snomedRoot, Icons.ROOT.getImageView());
 
       rootItem.getChildren().add(item);
+      rootItem.setExpanded(true);
 
       // item.computeGraphic();
       item.addChildren();
