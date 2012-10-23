@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey-version>1.14</jersey-version>
+        <javafx.version>2.2.0</javafx.version>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
     <build>
@@ -38,6 +39,7 @@
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>jfxrt</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
        <dependency>
             <groupId>org.ihtsdo.tk</groupId>
