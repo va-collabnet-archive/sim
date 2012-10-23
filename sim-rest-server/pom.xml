@@ -11,7 +11,6 @@
     <name>SIM: REST server</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>2.2</javafx.version>
         <jersey-version>1.14</jersey-version>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
@@ -38,9 +37,7 @@
     <dependencies>
         <dependency>
             <groupId>com.oracle</groupId>
-            <artifactId>javafx</artifactId>
-            <version>${javafx.version}</version>
-            <scope>compile</scope>
+            <artifactId>jfxrt</artifactId>
         </dependency>
        <dependency>
             <groupId>org.ihtsdo.tk</groupId>
