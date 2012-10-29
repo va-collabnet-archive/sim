@@ -129,7 +129,7 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
             BorderPane disclosureBorderPane = new BorderPane();
 
             if (treeItem.isExpanded()) {
-                ImageView iv = Icons.TAXONOMY_CLOSE.getImageView();
+                ImageView iv = SimTreeIcons.TAXONOMY_CLOSE.getImageView();
 
                 if (treeItem.getProgressIndicator() != null) {
                     disclosureBorderPane.setCenter(treeItem.getProgressIndicator());
@@ -139,7 +139,7 @@ public final class SimTreeCell extends TreeCell<FxTaxonomyReferenceWithConcept> 
 
                 setDisclosureNode(disclosureBorderPane);
             } else {
-                ImageView iv = Icons.TAXONOMY_OPEN.getImageView();
+                ImageView iv = SimTreeIcons.TAXONOMY_OPEN.getImageView();
 
                 if (treeItem.getProgressIndicator() != null) {
                     disclosureBorderPane.setCenter(treeItem.getProgressIndicator());

@@ -59,9 +59,7 @@ import javafx.util.Callback;
 import com.sun.javafx.collections.annotations.ReturnsUnmodifiableCollection;
 import com.sun.javafx.css.StyleManager;
 import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList;
-import com.sun.javafx.scene.control.TableColumnComparator;
 import com.sun.javafx.scene.control.WeakListChangeListener;
-import com.sun.javafx.scene.control.skin.TableViewSkin;
 import java.util.HashMap;
 import javafx.beans.DefaultProperty;
 import javafx.beans.WeakInvalidationListener;
@@ -268,8 +266,8 @@ public class TableViewNoEmptyRow<S> extends Control {
     // the control and the skin. Because they are private here, the strings
     // are also duplicated in the TableViewSkin class - so any changes to these
     // strings must also be duplicated there
-    private static final String SET_CONTENT_WIDTH = "TableViewNoScroll.contentWidth";
-    private static final String REFRESH = "TableViewNoScroll.refresh";
+    private static final String SET_CONTENT_WIDTH = "TableView.contentWidth";
+    private static final String REFRESH = "TableView.refresh";
     
 //    /**
 //     * Parent event for any TableViewNoEmptyRow edit event.
@@ -841,8 +839,8 @@ public class TableViewNoEmptyRow<S> extends Control {
                 if (getFocusModel() instanceof TableViewFocusModel) {
                     ((TableViewFocusModel)getFocusModel()).updateItemsObserver(null, getItems());
                 }
-                if (getSkin() instanceof TableViewSkin) {
-                    TableViewSkin skin = (TableViewSkin) getSkin();
+                if (getSkin() instanceof TableViewSkinNoEmptyRow) {
+                    TableViewSkinNoEmptyRow skin = (TableViewSkinNoEmptyRow) getSkin();
                     skin.updateTableItems(null, getItems());
                 }
             }

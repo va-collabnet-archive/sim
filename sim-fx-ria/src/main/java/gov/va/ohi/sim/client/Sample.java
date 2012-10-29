@@ -10,6 +10,7 @@ import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterEventHandler;
 import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterToHdrEventHandler;
 import gov.va.ohi.sim.client.event.handlers.UploadSmartEncounterToSimServerEventHandler;
 import gov.va.ohi.sim.fx.activity.ActivityPanel;
+import gov.va.ohi.sim.fx.arena.ConceptViewHelper;
 import gov.va.ohi.sim.fx.component.view.table.AuthorCellValueFactory;
 import gov.va.ohi.sim.fx.component.view.table.ModuleCellValueFactory;
 import gov.va.ohi.sim.fx.component.view.table.PathCellValueFactory;
@@ -20,7 +21,7 @@ import gov.va.ohi.sim.fx.concept.GetConceptService;
 import gov.va.ohi.sim.fx.description.view.table.DescriptionLanguageCellValueFactory;
 import gov.va.ohi.sim.fx.description.view.table.DescriptionTextCellValueFactory;
 import gov.va.ohi.sim.fx.relationship.view.table.RelationshipDestinationCellValueFactory;
-import gov.va.ohi.sim.fx.taxonomy.Icons;
+import gov.va.ohi.sim.fx.taxonomy.SimTreeIcons;
 import gov.va.ohi.sim.fx.taxonomy.SimTreeCell;
 import gov.va.ohi.sim.fx.taxonomy.SimTreeItem;
 import gov.va.ohi.sim.fx.taxonomy.TaxonomyProgressIndicatorSkin;
@@ -121,6 +122,9 @@ public class Sample implements Initializable {
    private MenuItem                  uploadSmartEncounterToSimServerMenuItem;
    @FXML
    private Region                    veil;
+   @FXML
+   private TreeView                  arenaConceptView;
+   private ConceptViewHelper cvHelper;
 
    //~--- methods -------------------------------------------------------------
 
@@ -185,7 +189,7 @@ public class Sample implements Initializable {
 
       snomedRoot.setConcept(App.fxc);
 
-      SimTreeItem item = new SimTreeItem(snomedRoot, Icons.ROOT.getImageView());
+      SimTreeItem item = new SimTreeItem(snomedRoot, SimTreeIcons.ROOT.getImageView());
 
       rootItem.getChildren().add(item);
       rootItem.setExpanded(true);
@@ -220,6 +224,7 @@ public class Sample implements Initializable {
          }
       });
       treeView.setRoot(rootItem);
+      cvHelper = new ConceptViewHelper(arenaConceptView);
       quitMenuItem.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent t) {

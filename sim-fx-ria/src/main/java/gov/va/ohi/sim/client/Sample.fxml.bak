@@ -30,81 +30,98 @@
                 </AnchorPane>
                 <AnchorPane id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
-                    <ScrollPane id="scrollPane1" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                          <children>
-                            <StackPane id="stackPane1" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <TabPane prefHeight="852.0" prefWidth="1064.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <tabs>
+                        <Tab text="Arena">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab text="Tabular View">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                <GridPane>
-                                  <children>
-                                    <TableView fx:id="descriptionTable" tableMenuButtonVisible="true" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-                                      <columns>
-                                        <TableColumn prefWidth="75.0" text="uuid" visible="false" fx:id="descriptionUuidColumn" />
-                                        <TableColumn prefWidth="75.0" text="nid" visible="false" fx:id="descriptionNidColumn" />
-                                        <TableColumn prefWidth="75.0" text="type" fx:id="descriptionTypeColumn" />
-                                        <TableColumn prefWidth="200.0" text="text" fx:id="descriptionTextColumn" />
-                                        <TableColumn prefWidth="75.0" text="lang" fx:id="descriptionLangColumn" />
-                                        <TableColumn prefWidth="75.0" text="status" fx:id="descriptionStatusColumn" />
-                                        <TableColumn prefWidth="75.0" text="time" fx:id="descriptionTimeColumn" />
-                                        <TableColumn prefWidth="75.0" text="author" fx:id="descriptionAuthorColumn" />
-                                        <TableColumn prefWidth="75.0" text="module" fx:id="descriptionModuleColumn" />
-                                        <TableColumn prefWidth="75.0" text="path" fx:id="descriptionPathColumn" />
-                                      </columns>
-                                    </TableView>
-                                    <TableView fx:id="relationshipTable" prefWidth="-1.0" tableMenuButtonVisible="true" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-                                      <columns>
-                                        <TableColumn prefWidth="75.0" text="uuid" visible="false" fx:id="relationshipUuidColumn" />
-                                        <TableColumn prefWidth="75.0" sortable="false" text="nid" visible="false" fx:id="relationshipNidColumn" />
-                                        <TableColumn prefWidth="75.0" text="type" fx:id="relationshipTypeColumn" />
-                                        <TableColumn prefWidth="75.0" text="destination" fx:id="relationshipDestinationColumn" />
-                                        <TableColumn prefWidth="75.0" text="status" fx:id="relationshipStatusColumn" />
-                                        <TableColumn prefWidth="75.0" text="time" fx:id="relationshipTimeColumn" />
-                                        <TableColumn prefWidth="75.0" text="author" fx:id="relationshipAuthorColumn" />
-                                        <TableColumn prefWidth="75.0" text="module" fx:id="relationshipModuleColumn" />
-                                        <TableColumn prefWidth="75.0" text="path" fx:id="relationshipPathColumn" />
-                                      </columns>
-                                    </TableView>
-                                    <TitledPane id="titledPane3" expanded="false" minHeight="22.0" prefWidth="-1.0" text="destination relationships" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-                                      <content>
-                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                      </content>
-                                    </TitledPane>
-                                    <TitledPane id="titledPane5" expanded="false" minHeight="22.0" prefWidth="-1.0" text="refset members" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-                                      <content>
-                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                      </content>
-                                    </TitledPane>
-                                    <TitledPane id="titledPane4" expanded="false" minHeight="22.0" prefWidth="-1.0" text="media" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-                                      <content>
-                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                      </content>
-                                    </TitledPane>
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                                <ScrollPane id="scrollPane1" fitToHeight="true" fitToWidth="true" prefHeight="816.0" prefWidth="1064.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                       <children>
-                                        <Region id="region1" fx:id="veil" layoutX="643.0" layoutY="-110.0" maxWidth="300.0" minHeight="10.0" minWidth="10.0" prefHeight="512.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4)" />
+                                        <StackPane id="stackPane1" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <children>
+                                            <GridPane>
+                                              <children>
+                                                <TableView fx:id="descriptionTable" minHeight="22.0" minWidth="-Infinity" tableMenuButtonVisible="true" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                                                  <columns>
+                                                    <TableColumn prefWidth="75.0" text="uuid" visible="false" fx:id="descriptionUuidColumn" />
+                                                    <TableColumn prefWidth="75.0" text="nid" visible="false" fx:id="descriptionNidColumn" />
+                                                    <TableColumn prefWidth="75.0" text="type" fx:id="descriptionTypeColumn" />
+                                                    <TableColumn prefWidth="200.0" text="text" fx:id="descriptionTextColumn" />
+                                                    <TableColumn prefWidth="75.0" text="lang" fx:id="descriptionLangColumn" />
+                                                    <TableColumn prefWidth="75.0" text="status" fx:id="descriptionStatusColumn" />
+                                                    <TableColumn prefWidth="75.0" text="time" fx:id="descriptionTimeColumn" />
+                                                    <TableColumn prefWidth="75.0" text="author" fx:id="descriptionAuthorColumn" />
+                                                    <TableColumn prefWidth="75.0" text="module" fx:id="descriptionModuleColumn" />
+                                                    <TableColumn prefWidth="75.0" text="path" fx:id="descriptionPathColumn" />
+                                                  </columns>
+                                                </TableView>
+                                                <TableView fx:id="relationshipTable" minHeight="22.0" prefWidth="-1.0" tableMenuButtonVisible="true" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                                                  <columns>
+                                                    <TableColumn prefWidth="75.0" text="uuid" visible="false" fx:id="relationshipUuidColumn" />
+                                                    <TableColumn prefWidth="75.0" sortable="false" text="nid" visible="false" fx:id="relationshipNidColumn" />
+                                                    <TableColumn prefWidth="75.0" text="type" fx:id="relationshipTypeColumn" />
+                                                    <TableColumn prefWidth="75.0" text="destination" fx:id="relationshipDestinationColumn" />
+                                                    <TableColumn prefWidth="75.0" text="status" fx:id="relationshipStatusColumn" />
+                                                    <TableColumn prefWidth="75.0" text="time" fx:id="relationshipTimeColumn" />
+                                                    <TableColumn prefWidth="75.0" text="author" fx:id="relationshipAuthorColumn" />
+                                                    <TableColumn prefWidth="75.0" text="module" fx:id="relationshipModuleColumn" />
+                                                    <TableColumn prefWidth="75.0" text="path" fx:id="relationshipPathColumn" />
+                                                  </columns>
+                                                </TableView>
+                                                <TitledPane id="titledPane3" expanded="false" minHeight="22.0" prefWidth="-1.0" text="destination relationships" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                                  <content>
+                                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                  </content>
+                                                </TitledPane>
+                                                <TitledPane id="titledPane5" expanded="false" minHeight="22.0" prefWidth="-1.0" text="refset members" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                                  <content>
+                                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                  </content>
+                                                </TitledPane>
+                                                <TitledPane id="titledPane4" expanded="false" minHeight="22.0" prefWidth="-1.0" text="media" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                                  <content>
+                                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                  </content>
+                                                </TitledPane>
+                                                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                                                  <children>
+                                                    <Region id="region1" fx:id="veil" layoutX="643.0" layoutY="-110.0" maxWidth="300.0" minHeight="10.0" minWidth="10.0" prefHeight="512.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4)" />
+                                                  </children>
+                                                </Pane>
+                                              </children>
+                                              <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              </columnConstraints>
+                                              <rowConstraints>
+                                                <RowConstraints minHeight="-1.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="ALWAYS" />
+                                              </rowConstraints>
+                                            </GridPane>
+                                            <ProgressIndicator id="progressIndicator1" fx:id="conceptServiceProgress" maxHeight="75.0" maxWidth="75.0" progress="0.0" StackPane.alignment="CENTER" />
+                                          </children>
+                                        </StackPane>
                                       </children>
-                                    </Pane>
-                                  </children>
-                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  </columnConstraints>
-                                  <rowConstraints>
-                                    <RowConstraints minHeight="-1.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="-1.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="ALWAYS" />
-                                  </rowConstraints>
-                                </GridPane>
-                                <ProgressIndicator id="progressIndicator1" fx:id="conceptServiceProgress" maxHeight="75.0" maxWidth="75.0" progress="0.0" StackPane.alignment="CENTER" />
+                                    </AnchorPane>
+                                  </content>
+                                </ScrollPane>
                               </children>
-                            </StackPane>
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </ScrollPane>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                      </tabs>
+                    </TabPane>
                   </children>
                 </AnchorPane>
               </items>

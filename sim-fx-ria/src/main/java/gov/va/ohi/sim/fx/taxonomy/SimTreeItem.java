@@ -168,26 +168,26 @@ public class SimTreeItem extends TreeItem<FxTaxonomyReferenceWithConcept> implem
     public Node computeGraphic() {
         FxTaxonomyReferenceWithConcept ref = getValue();
         if (ref != null && ref.getRelationshipVersion() == null) {
-            return Icons.ROOT.getImageView();
+            return SimTreeIcons.ROOT.getImageView();
         } else if (ref != null && ref.getConcept() != null && ref.getConcept().getOriginRelationships().isEmpty()) {
-            return Icons.ROOT.getImageView();
+            return SimTreeIcons.ROOT.getImageView();
         } else if (isDefined() && (isMultiParent() || multiParentDepth > 0)) {
             
             if (isSecondaryParentOpened()) {
-                return Icons.DEFINED_MULTI_PARENT_OPEN.getImageView();
+                return SimTreeIcons.DEFINED_MULTI_PARENT_OPEN.getImageView();
             } else {
-                return Icons.DEFINED_MULTI_PARENT_CLOSED.getImageView();
+                return SimTreeIcons.DEFINED_MULTI_PARENT_CLOSED.getImageView();
             }
         } else if (!isDefined() && (isMultiParent() || multiParentDepth > 0)) {
             if (isSecondaryParentOpened()) {
-                return Icons.PRIMITIVE_MULTI_PARENT_OPEN.getImageView();
+                return SimTreeIcons.PRIMITIVE_MULTI_PARENT_OPEN.getImageView();
             } else {
-                return Icons.PRIMITIVE_MULTI_PARENT_CLOSED.getImageView();
+                return SimTreeIcons.PRIMITIVE_MULTI_PARENT_CLOSED.getImageView();
             }
         } else if (isDefined() && !isMultiParent()) {
-            return Icons.DEFINED_SINGLE_PARENT.getImageView();
+            return SimTreeIcons.DEFINED_SINGLE_PARENT.getImageView();
         }
-        return Icons.PRIMITIVE_SINGLE_PARENT.getImageView();
+        return SimTreeIcons.PRIMITIVE_SINGLE_PARENT.getImageView();
     }
  
     @Override

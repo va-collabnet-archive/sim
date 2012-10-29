@@ -135,7 +135,8 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>     
+            <!--       
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -170,7 +171,8 @@
                         <argument>fx-app</argument>
                     </arguments>
                 </configuration>
-            </plugin>        
+            </plugin>   
+            -->     
         </plugins>
     </build>
 </project>
