@@ -14,10 +14,10 @@ package gov.va.sim.act;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import gov.va.sim.act.expression.ExpressionBI;
 import gov.va.sim.composition.CompositionNodeBI;
 import gov.va.sim.id.IdentifiableInstanceBI;
 
-import org.ihtsdo.tk.api.concept.ConceptVersionBI;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -57,14 +57,14 @@ public interface ActBI extends IdentifiableInstanceBI, CompositionNodeBI {
     *
     * @return the instance identifier for the subject of this act
     */
-   ConceptVersionBI getActSubject();
+   ExpressionBI getActSubject();
 
    /**
     *
     * @return a mutable ConceptVersionBI collection that specifies the sections of
     * the document this act is contained within.
     */
-   Collection<ConceptVersionBI> getSections();
+   Collection<ExpressionBI> getSections();
 
    //~--- set methods ---------------------------------------------------------
 
@@ -73,5 +73,5 @@ public interface ActBI extends IdentifiableInstanceBI, CompositionNodeBI {
     * @param subjectUuid the instance identifier for the subject of
     * this act
     */
-   void setActSubject(ConceptVersionBI subject);
+   void setActSubject(ExpressionBI subject);
 }

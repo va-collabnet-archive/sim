@@ -16,7 +16,6 @@ package gov.va.sim.act;
 
 import gov.va.sim.act.expression.ExpressionBI;
 
-import org.ihtsdo.tk.api.concept.ConceptVersionBI;
 
 /**
  * Assertion: the act of stating something
@@ -34,15 +33,6 @@ public interface AssertionBI extends ActBI {
    ExpressionBI getDiscernable();
 
    /**
-    * A representation of the the
-    * strength of an asserter's belief that the value
-    * is correct.  Probabilities are represented as integers inclusively
-    * between 0 and 100. Probability can be represented as a point, a bound,
-    * or an interval.
-    */
-   int[] getProbability();
-
-   /**
     * A ConceptVersionBI that
     * qualifies the value, making it less general. For example,
     * a qualifier of "unknown, not asked" applied to a value of
@@ -52,7 +42,7 @@ public interface AssertionBI extends ActBI {
     * with qualifiers such as "default", "patient entered", and
     * "confirmed default".
     */
-   ConceptVersionBI getQualifier();
+   ExpressionBI getQualifier();
 
    /**
     * A representation of the asserter's belief in the timing during
