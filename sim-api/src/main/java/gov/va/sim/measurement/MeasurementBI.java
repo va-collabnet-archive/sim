@@ -12,10 +12,14 @@
 
 package gov.va.sim.measurement;
 
+import org.ihtsdo.tk.api.concept.ConceptVersionBI;
+
 /**
  *
  * @author kec
  */
 public interface MeasurementBI<T extends MeasurementBI> {
     T getValue();
+    ConceptVersionBI getUnitsOfMeasure();
+    void setUnitsOfMeasure(ConceptVersionBI unitsOfMeasure);
 }

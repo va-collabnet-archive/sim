@@ -41,4 +41,29 @@ public interface BoundBI extends MeasurementBI<BoundBI> {
      * @param lowerLimit the lower limit of this bound
      */
     void setLowerLimit(PointBI lowerLimit);
+    
+    /**
+     * 
+     * @return is the upper bound inclusive or exclusive
+     */
+    boolean isUpperLimitInclusive();
+    
+    
+    /**
+     * 
+     * @return is the lower bound inclusive or exclusive
+     */
+    boolean isLowerLimitInclusive();
+    
+    /**
+     * 
+     * @param upperLimitInclusive set the upper limit to inclusive or exclusive
+     */
+    void setUpperLimitInclusive(boolean upperLimitInclusive);
+    
+    /**
+     * 
+     * @param lowerLimitInclusive set the lower limit to inclusive or exclusive
+     */
+    void setLowerLimitInclusive(boolean lowerLimitInclusive);
 }
