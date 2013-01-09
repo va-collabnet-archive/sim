@@ -25,4 +25,9 @@ public interface ExpressionRelGroupBI {
      */
     ExpressionRelBI[] getRelsInGroup();
     
+    /**
+     * 
+     * @param relsInGroup set the relationships in this group
+     */
+    void setRelsInGroup(ExpressionRelBI[] relsInGroup);
 }

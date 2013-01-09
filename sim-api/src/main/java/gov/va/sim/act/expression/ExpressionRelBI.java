@@ -45,4 +45,10 @@ public interface ExpressionRelBI extends ExpressionComponentBI {
     * @return the relationship group that this relationship participates in.
     */
    ExpressionRelGroupBI getRelGroup();
+   
+   /**
+    * 
+    * @param relGroup set the relationship group that this relationship participates in
+    */
+   void setRelGroup(ExpressionRelGroupBI relGroup);
 }
