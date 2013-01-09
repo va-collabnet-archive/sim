@@ -12,6 +12,7 @@
 
 package gov.va.sim.measurement;
 
+import org.ihtsdo.tk.api.concept.ConceptVersionBI;
 
 /**
  *
@@ -20,4 +21,6 @@ package gov.va.sim.measurement;
 public interface PointBI extends MeasurementBI<PointBI> {
     Number getPointValue();
     void setPointValue(Number pointValue);
+    ConceptVersionBI getUnitsOfMeasure();
+    void setUnitsOfMeasure(ConceptVersionBI unitsOfMeasure);
 }
