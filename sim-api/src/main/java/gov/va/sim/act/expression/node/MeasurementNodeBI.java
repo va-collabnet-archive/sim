@@ -11,6 +11,6 @@ import gov.va.sim.measurement.MeasurementBI;
  *
  * @author kec
  */
-public interface MeasurementNodeBI<T extends MeasurementBI> extends ExpressionNodeBI<T> {
+public interface MeasurementNodeBI<T extends MeasurementBI<?>> extends ExpressionNodeBI<T> {
 
 }

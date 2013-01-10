@@ -16,6 +16,6 @@ package gov.va.sim.measurement;
  *
  * @author kec
  */
-public interface MeasurementBI<T extends MeasurementBI> {
+public interface MeasurementBI<T extends MeasurementBI<?>> {
     T getValue();
 }

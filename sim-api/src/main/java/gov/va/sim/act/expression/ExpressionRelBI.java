@@ -26,7 +26,7 @@ public interface ExpressionRelBI extends ExpressionComponentBI {
      * 
      * @return the origin of the relationship
      */
-   ExpressionNodeBI getOrigin();
+   ExpressionNodeBI<?> getOrigin();
    
    /**
     * 
@@ -38,7 +38,7 @@ public interface ExpressionRelBI extends ExpressionComponentBI {
     * 
     * @return the destination of the relationship
     */
-   ExpressionNodeBI getDestination();
+   ExpressionNodeBI<?> getDestination();
    
    /**
     * 
