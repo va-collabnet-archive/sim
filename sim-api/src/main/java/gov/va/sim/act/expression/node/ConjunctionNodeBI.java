@@ -10,6 +10,6 @@ import java.util.Collection;
  *
  * @author kec
  */
-public interface ConjunctionNodeBI extends ExpressionNodeBI<Collection<ExpressionNodeBI>> {
+public interface ConjunctionNodeBI extends ExpressionNodeBI<Collection<ExpressionNodeBI<?>>> {
     
 }
