@@ -12,6 +12,6 @@ import gov.va.sim.measurement.BoundBI;
  * 
  * @author kec
  */
-public interface BoundedNodeBI extends ExpressionNodeBI<BoundBI> {
+public interface BoundedNodeBI extends MeasurementNodeBI<BoundBI> {
 
 }
