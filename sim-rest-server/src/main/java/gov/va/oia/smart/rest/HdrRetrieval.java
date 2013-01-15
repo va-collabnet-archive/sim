@@ -53,7 +53,7 @@ public class HdrRetrieval {
 
    @Override
    public String toString() {
-      return super.toString();
+      return hdrRetrievalString;
    }
 
    public boolean validate() {
