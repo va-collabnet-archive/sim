@@ -12,8 +12,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey-version>1.14</jersey-version>
-        <!-- can use a more conservative version here, as client side is not needed -->
-        <javafx.version>2.2.0</javafx.version>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
     <build>

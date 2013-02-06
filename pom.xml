@@ -31,7 +31,7 @@
         <ttk.version>3.0.1-SNAPSHOT</ttk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <icons.version>1.0-SNAPSHOT</icons.version>
-        <javafx.version>2.2.4-ea-b09</javafx.version>
+        <javafx.version>2.2.5-b09</javafx.version>
     </properties>
     <dependencyManagement>
         <dependencies>
