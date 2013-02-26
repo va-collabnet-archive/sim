@@ -15,6 +15,8 @@ package gov.va.sim.act;
 //~--- non-JDK imports --------------------------------------------------------
 
 import gov.va.sim.act.expression.ExpressionBI;
+import gov.va.sim.measurement.MeasurementBI;
+import java.util.Collection;
 
 
 /**
@@ -48,10 +50,18 @@ public interface AssertionBI extends ActBI {
     * A representation of the asserter's belief in the timing during
     * which this assertion is valid. If the interval is null,
     * then the interval of the EventDocBI is assumed.
-    * Timing can be represented as a point, a bound, or an
-    * interval.
+    * Timing can be represented as a subtype of MeasurementBI 
+    * which allows a PointBI, BoundBI or IntervalBI.
+    * 
+    * The PointBI fields of the MeasurementBI support UnitsOfMeasure.  
+    * UnitsOfMeasure should always be ?concept? in this use case.  
+    * No other UnitsOfMeasure are supported in a Timing.
+    * 
+    * The value of the timing field(s) should be consistent with 
+    * @see java.util.Date#getTime() - which returns 64 bit POSIX time.
+    * http://en.wikipedia.org/wiki/Unix_time
     */
-   long[] getTiming();
+   MeasurementBI<? extends MeasurementBI<?>> getTiming();
 
    /**
     * The value of a condition can be of several types:
@@ -73,4 +83,11 @@ public interface AssertionBI extends ActBI {
     * @return
     */
    ExpressionBI getValue();
+   
+   
+   /**
+    * Optional reference(s) to other AssertionBI elements to allow the construction of Composite Assertions.
+    * @return
+    */
+   Collection<AssertionRefBI> getCompositeAssertionComponents();
 }
