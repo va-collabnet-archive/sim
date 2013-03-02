@@ -18,4 +18,5 @@ package gov.va.sim.measurement;
  */
 public interface MeasurementBI<T extends MeasurementBI<?>> {
     T getValue();
+    void appendStringForUuidHash(StringBuilder sb);
 }
