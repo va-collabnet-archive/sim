@@ -4,7 +4,7 @@
   <parent>
     <groupId>gov.va</groupId>
     <artifactId>sim</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>sim-rest-client</artifactId>
   <name>SIM: REST client</name>
