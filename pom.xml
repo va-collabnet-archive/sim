@@ -28,10 +28,11 @@
         </license>
     </licenses>
     <properties>
-        <ttk.version>3.0.1-SNAPSHOT</ttk.version>
+        <ttk.version>3.0.1</ttk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <icons.version>1.0-SNAPSHOT</icons.version>
+        <icons.version>1.0</icons.version>
         <javafx.version>2.2.5-b09</javafx.version>
+        <maven-release-plugin.version>2.0</maven-release-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -166,6 +167,15 @@
                         </plugin>     
 
                     </reportPlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <preparationGoals>clean install</preparationGoals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <remoteTagging>true</remoteTagging>
                 </configuration>
             </plugin>
         </plugins>
