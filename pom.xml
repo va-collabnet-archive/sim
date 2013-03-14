@@ -4,15 +4,15 @@
 
     <groupId>gov.va</groupId>
     <artifactId>sim</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>SIM: (MMP) Simple Integrated Model</name>
 
     <scm>
-        <connection>scm:svn:https://csfe.aceworkspace.net/svn/repos/sim/tags/#{maestro.tag}</connection>
-        <developerConnection>scm:svn:https://csfe.aceworkspace.net/svn/repos/sim/tags/#{maestro.tag}</developerConnection>
-        <url>https://csfe.aceworkspace.net/integration/viewvc/viewvc.cgi/tags/#{maestro.tag}?root=sim&amp;system=exsy1002</url>
+        <connection>scm:svn:https://csfe.aceworkspace.net/svn/repos/sim/trunk/sim</connection>
+        <developerConnection>scm:svn:https://csfe.aceworkspace.net/svn/repos/sim/trunk/sim</developerConnection>
+        <url>https://csfe.aceworkspace.net/integration/viewvc/viewvc.cgi/trunk/sim/?root=sim&amp;system=exsy1002</url>
     </scm>
     <organization>
         <name>Veterans Health Administration
