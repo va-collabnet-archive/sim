@@ -27,7 +27,8 @@ public interface PlaceholderBI extends PointBI
       DOB("DOB"), 
       NOW("NOW"), 
       START_ACTIVE_SERVICE("start of active service"),
-      END_ACTIVE_SERVICE("end of active service");
+      END_ACTIVE_SERVICE("end of active service"), 
+      PNCS_VALUE_FIELD("PNCS Value Field");
       
       private String niceName_;
       private long id_;
